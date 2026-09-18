@@ -26,10 +26,8 @@
     "scripts": ["x-background.js"],
     "type": "module"
   },
-  "minimum_chrome_version": "88",
   "options_ui": {
     "page": "options.html",
-    "browser_style": false,
     "open_in_tab": true
   },
   "commands": {
@@ -42,7 +40,6 @@
     "storage",
     "unlimitedStorage",
     "webRequest",
-    "webRequestBlocking",
     "contextMenus"
   ],
   "host_permissions": ["<all_urls>"],

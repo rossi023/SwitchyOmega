@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "网罗代理",
-  "version": "1.0.1",
+  "version": "3.5.2",
   "description": "__MSG_manifest_app_description__",
   "icons": {
     "16": "img/icons/network-action-16.png",
@@ -27,10 +27,8 @@
     "type": "module"
   },
   "minimum_chrome_version": "88",
-  "options_page": "options.html",
   "options_ui": {
     "page": "options.html",
-    "browser_style": false,
     "open_in_tab": true
   },
   "commands": {

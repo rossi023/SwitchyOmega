@@ -202,9 +202,9 @@ zeroBackground = (zeroStorage, opts) ->
       unless opts.skipIcon
         icon ?= drawIcon(resultColor, profileColor)
 
-      shortTitle = 'Omega: ' + currentName # TODO: I18n.
+      shortTitle = currentName
       if profile.name != currentName
-        shortTitle += ' => ' + profile.name # TODO: I18n.
+        shortTitle += ' => ' + profile.name
       if options._options['-showResultProfileOnActionBadgeText']
         badgeText = profile.name or ''
         if profile.builtin
@@ -399,15 +399,15 @@ zeroBackground = (zeroStorage, opts) ->
     if currentName
       title = chrome.i18n.getMessage('browserAction_titleWithResult', [
         currentName, '', details])
-      shortTitle = 'Omega: ' + currentName # TODO: I18n.
+      shortTitle = currentName
     else
       title = details
-      shortTitle = 'Omega: ' + details # TODO: I18n.
+      shortTitle = details
 
     if external and current.profileType != 'SystemProfile'
       message = chrome.i18n.getMessage('browserAction_titleExternalProxy')
       title = message + '\n' + title
-      shortTitle = 'Omega-Extern: ' + details # TODO: I18n.
+      shortTitle = details
       options.setBadge()
 
     if not current.name or not OmegaPac.Profiles.isInclusive(current)
