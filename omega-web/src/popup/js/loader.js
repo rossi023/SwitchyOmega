@@ -1,7 +1,7 @@
 window.OmegaPopup = {};
 $script(['js/index.js', 'js/profiles.js', 'js/keyboard.js'], 'om-main');
 $script(['js/i18n.js']);
-$script('../js/omega_target_popup.js', 'om-target', function() {
+$script('../js/proxy_target_popup.js', 'om-target', function() {
   $script('js/style.js', 'om-style')
   function init(){
     chrome.tabs.query({active: true, lastFocusedWindow: true}).then(function(tabs){

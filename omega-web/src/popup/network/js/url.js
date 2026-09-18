@@ -64,7 +64,7 @@ function createMenuItemForProfile(profile, profiles) {
 
 function createProfileDropdown(state, containerEl) {
 
-  const profileSelectorEl = containerEl.querySelector('.omega-profile-select');
+  const profileSelectorEl = containerEl.querySelector('.proxy-profile-select');
   const mainBtnEl = profileSelectorEl.querySelector('.dropdown-toggle')
 
   var ul = document.createElement('ul');
@@ -245,7 +245,7 @@ export const initUrlCellDetail = async (cell) => {
           </div>
           <div class="form-group">
             <label>${tr('options_resultProfileForSelectedDomains')}</label>
-            <div class="btn-group omega-profile-select" dropdown="dropdown">
+            <div class="btn-group proxy-profile-select" dropdown="dropdown">
               <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default dropdown-toggle">
                 Dropdown trigger
                 <span class="caret"></span>
@@ -293,7 +293,7 @@ export const initUrlCellDetail = async (cell) => {
     tabulatorInstance.clearAlert();
   };
   urlContainerEl.querySelector(".add-temp-condition-btn").onclick = () => {
-    const mainBtnEl = urlContainerEl.querySelector('.omega-profile-select .dropdown-toggle');
+    const mainBtnEl = urlContainerEl.querySelector('.proxy-profile-select .dropdown-toggle');
     const profileName = mainBtnEl.dataset.profile;
     const pattern = detailEl.value;
     tabulatorInstance.clearAlert();
@@ -309,7 +309,7 @@ export const initUrlCellDetail = async (cell) => {
 
   const addConditionBtnEl = urlContainerEl.querySelector(".add-condition-btn");
   addConditionBtnEl.onclick = ()=>{
-    const mainBtnEl = urlContainerEl.querySelector('.omega-profile-select .dropdown-toggle');
+    const mainBtnEl = urlContainerEl.querySelector('.proxy-profile-select .dropdown-toggle');
     const profileName = mainBtnEl.dataset.profile;
     const pattern = detailEl.value;
     tabulatorInstance.clearAlert();

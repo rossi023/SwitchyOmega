@@ -29,13 +29,13 @@ html, body{
 }
 
 
-.network-profile-select {
+.proxy-profile-select {
   width: 100%;
 }
-.network-profile-select .dropdown-menu > li > a {
+.proxy-profile-select .dropdown-menu > li > a {
   max-width: none !important;
 }
-.network-profile-select .btn {
+.proxy-profile-select .btn {
   width: 100%;
   display: block;
   text-align: left;
@@ -43,14 +43,14 @@ html, body{
   position: relative;
   padding-right: 25px;
 }
-.network-profile-select .btn .caret {
+.proxy-profile-select .btn .caret {
   position: absolute;
   top: 50%;
   right: 12px;
   margin-top: -2px;
   vertical-align: middle;
 }
-.network-profile-select .dropdown-menu {
+.proxy-profile-select .dropdown-menu {
   width: 100%;
   cursor: pointer;
 }

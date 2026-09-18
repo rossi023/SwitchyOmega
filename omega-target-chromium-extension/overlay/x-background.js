@@ -10,11 +10,10 @@ import './log.js'
 import "./js/log_error.js"
 //import "./log.js"
 //import "./lib/FileSaver/FileSaver.min.js"
-import "./js/omega_debug.js"
+import "./js/proxy_debug.js"
 import "./js/proxy_pac.min.js"
 import "./js/proxy_target.min.js"
 import "./js/proxy_target_chromium_extension.min.js"
-import "./img/icons/draw_omega.js"
 import "./js/background.js" // zeroBackground
 
 /**
@@ -25,7 +24,7 @@ const isFirefox = !!globalThis.localStorage
 
 globalThis.POPUPHTMLURL = './popup-iframe.html'
 //if android, (eg. edge canary for android), use default popup/index.html
-//https://github.com/zero-peak/缃戠綏浠ｇ悊/issues/93
+//https://github.com/zero-peak/网罗代理/issues/93
 if (globalThis.navigator && /Android/i.test(globalThis.navigator.userAgent)){
   globalThis.POPUPHTMLURL = './popup/index.html'
 }

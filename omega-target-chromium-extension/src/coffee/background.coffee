@@ -80,42 +80,11 @@ zeroBackground = (zeroStorage, opts) ->
     unhandledPromises.splice(index, 1)
     unhandledPromisesId.splice(index, 1)
 
-  iconCache = {}
-  drawContext = null
-  drawError = null
+  # The action icon is a static logo now. Dynamic profile-colored drawing
+  # (drawNetwork) has been disabled; drawIcon always returns null so that
+  # setIcon keeps the static icon from the manifest.
   drawIcon = (resultColor, profileColor) ->
-    cacheKey = "proxy+#{resultColor ? ''}+#{profileColor}"
-    icon = iconCache[cacheKey]
-    return icon if icon
-    try
-      if not drawContext?
-        canvas = new OffscreenCanvas(300, 300)
-        drawContext = canvas.getContext('2d',  { willReadFrequently: true })
-
-      icon = {}
-      for size in [16, 19, 24, 32, 38]
-        drawContext.scale(size, size)
-        drawContext.clearRect(0, 0, 1, 1)
-        if resultColor?
-          drawOmega drawContext, resultColor, profileColor
-        else
-          drawOmega drawContext, profileColor
-        drawContext.setTransform(1, 0, 0, 1, 0, 0)
-        icon[size] = drawContext.getImageData(0, 0, size, size)
-        if icon[size].data[3] == 255
-          # Some browsers may replace the image data
-          # with a opaque white image to
-          # resist fingerprinting. In that case the icon cannot be drawn.
-          throw new Error(
-            'Icon drawing blocked by privacy.resistFingerprinting.')
-    catch e
-      if not drawError?
-        drawError = e
-        Log.error(e)
-        Log.error('Profile-colored icon disabled. Falling back to static icon.')
-      icon = null
-
-    return iconCache[cacheKey] = icon
+    return null
 
   charCodeUnderscore = '_'.charCodeAt(0)
   isHidden = (name) -> (name.charCodeAt(0) == charCodeUnderscore and

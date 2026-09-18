@@ -1,4 +1,4 @@
-module = angular.module('networkPopup', ['proxyTarget', 'proxyDecoration',
+module = angular.module('proxyPopup', ['proxyTarget', 'proxyDecoration',
   'ui.bootstrap', 'ui.validate'])
 
 module.filter 'tr', (proxyTarget) -> proxyTarget.getMessage

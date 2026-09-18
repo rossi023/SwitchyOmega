@@ -1,7 +1,7 @@
 window.UglifyJS_NoUnsafeEval = true
 window.OmegaPopup = {};
-$script('../../js/omega_pac.min.js', 'omega-pac')
-$script('../../js/omega_target_popup.js', 'om-target', function() {
+$script('../../js/proxy_pac.min.js', 'proxy-pac')
+$script('../../js/proxy_target_popup.js', 'om-target', function() {
   $script('../js/style.js', 'om-style')
   function init(){
     OmegaTargetPopup.getState([

@@ -4,20 +4,20 @@
   "version": "3.5.2",
   "description": "__MSG_manifest_app_description__",
   "icons": {
-    "16": "img/icons/omega-action-16.png",
-    "24": "img/icons/omega-action-24.png",
-    "32": "img/icons/omega-action-32.png",
-    "48": "img/icons/omega-48.png",
-    "64": "img/icons/omega-64.png",
-    "128": "img/icons/omega-128.png"
+    "16": "img/icons/network-action-16.png",
+    "24": "img/icons/network-action-24.png",
+    "32": "img/icons/network-action-32.png",
+    "48": "img/icons/network-48.png",
+    "64": "img/icons/network-64.png",
+    "128": "img/icons/network-128.png"
   },
   "default_locale": "en",
   "action": {
     "default_icon": {
-      "16": "img/icons/omega-action-16.png",
-      "19": "img/icons/omega-action-19.png",
-      "24": "img/icons/omega-action-24.png",
-      "32": "img/icons/omega-action-32.png"
+      "16": "img/icons/network-action-16.png",
+      "19": "img/icons/network-action-19.png",
+      "24": "img/icons/network-action-24.png",
+      "32": "img/icons/network-action-32.png"
     },
     "default_title": "__MSG_manifest_icon_default_title__",
     "default_popup": "popup/index.html"
