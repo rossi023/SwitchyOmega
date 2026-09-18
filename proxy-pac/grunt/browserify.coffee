@@ -15,7 +15,7 @@ module.exports =
       'proxy_pac.min.js': './index.coffee'
     options:
       alias: [
-        './index.coffee:OmegaPac'
+        './index.coffee:ProxyPac'
       ]
       transform: ['coffeeify']
       plugin:
@@ -25,4 +25,4 @@ module.exports =
           []
       browserifyOptions:
         extensions: '.coffee'
-        standalone: 'OmegaPac'
+        standalone: 'ProxyPac'

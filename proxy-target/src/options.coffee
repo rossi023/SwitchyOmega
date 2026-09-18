@@ -2,7 +2,7 @@
 Promise = require 'bluebird'
 Log = require './log'
 Storage = require './storage'
-OmegaPac = require 'proxy-pac'
+ProxyPac = require 'proxy-pac'
 jsondiffpatch = require 'jsondiffpatch'
 
 
@@ -27,21 +27,21 @@ PROFILETEMPPACKEY = '__tempZeroRuleListPac'
 transformValueKeys = ['lastUpdate', 'ruleList', 'pacScript', 'sha256']
 
 generateProfileTempPac = (profile) ->
-  tempProfile = OmegaPac.Profiles.create(PROFILETEMPPACKEY, profile.profileType)
+  tempProfile = ProxyPac.Profiles.create(PROFILETEMPPACKEY, profile.profileType)
   tempProfile.defaultProfileName = profile.defaultProfileName
   tempProfile.format = profile.format
   tempProfile.matchProfileName = profile.matchProfileName
   tempProfile.ruleList = profile.ruleList
   tempProfile.isTempPacProfile = true
   options = {}
-  nameKey = OmegaPac.Profiles.nameAsKey(tempProfile.name)
+  nameKey = ProxyPac.Profiles.nameAsKey(tempProfile.name)
   options[nameKey] = tempProfile
   profileNotFound = -> 'ignore'
 
-  ast = OmegaPac.PacGenerator.script(options, tempProfile.name,
+  ast = ProxyPac.PacGenerator.script(options, tempProfile.name,
     profileNotFound: profileNotFound)
   pac = ast.print_to_string(beautify: true, comments: true)
-  pac = OmegaPac.PacGenerator.ascii(pac)
+  pac = ProxyPac.PacGenerator.ascii(pac)
   return pac
 
 
@@ -50,13 +50,13 @@ generateProfileTempPac = (profile) ->
 class Options
   ###*
   # The entire set of options including profiles and other settings.
-  # @typedef OmegaOptions
+  # @typedef ProxyOptions
   # @type {object}
   ###
 
   ###*
   # All the options, in a map from key to value.
-  # @type OmegaOptions
+  # @type ProxyOptions
   ###
   _options: null
   _storage: null
@@ -90,7 +90,7 @@ class Options
     if key is '-customCss'
       return undefined
     if key[0] == '+'
-      if OmegaPac.Profiles.updateUrl(value)
+      if ProxyPac.Profiles.updateUrl(value)
         profile = {}
         for k, v of value
           continue if transformValueKeys.indexOf(k) >= 0
@@ -123,7 +123,7 @@ class Options
   # Attempt to load options from local and remote storage.
   # @param {?{}} args Extra arguments
   # @param {number=3} args.retry Number of retries before giving up.
-  # @returns {Promise<OmegaOptions>} The loaded options
+  # @returns {Promise<ProxyOptions>} The loaded options
   ###
   loadOptions: ({retry} = {}) ->
     retry ?= 3
@@ -259,7 +259,7 @@ class Options
 
   ###*
   # Attempt to initialize (or reinitialize) options.
-  # @returns {Promise<OmegaOptions>} A promise that is fulfilled on ready.
+  # @returns {Promise<ProxyOptions>} A promise that is fulfilled on ready.
   ###
   init: (startupCheck = -> true) ->
     # startupProfileName 如果为空，就使用当前的 currentProfileName
@@ -319,30 +319,30 @@ class Options
   # beginning and in the end of the implementation to check the schemaVersion
   # and to apply future upgrades, respectively.
   # Example: super(options).catch -> super(doCustomUpgrades(options), changes)
-  # @param {?OmegaOptions} options The legacy options to upgrade
+  # @param {?ProxyOptions} options The legacy options to upgrade
   # @param {{}={}} changes Previous pending changes to be applied. Default to
   # an empty dictionary. Please provide this argument when calling super().
-  # @returns {Promise<[OmegaOptions, {}]>} The new options and the changes.
+  # @returns {Promise<[ProxyOptions, {}]>} The new options and the changes.
   ###
   upgrade: (options, changes) ->
     changes ?= {}
     version = options?['schemaVersion']
     if version == 1
       autoDetectUsed = false
-      OmegaPac.Profiles.each options, (key, profile) ->
+      ProxyPac.Profiles.each options, (key, profile) ->
         if not autoDetectUsed
-          refs = OmegaPac.Profiles.directReferenceSet(profile)
+          refs = ProxyPac.Profiles.directReferenceSet(profile)
           if refs['+auto_detect']
             autoDetectUsed = true
       if autoDetectUsed
-        options['+auto_detect'] = OmegaPac.Profiles.create(
+        options['+auto_detect'] = ProxyPac.Profiles.create(
           name: 'auto_detect'
           profileType: 'PacProfile'
           pacUrl: 'http://wpad/wpad.dat'
           color: '#00cccc'
         )
       version = changes['schemaVersion'] = options['schemaVersion'] = 2
-    OmegaPac.Profiles.each options, (key, profile) ->
+    ProxyPac.Profiles.each options, (key, profile) ->
       if profile.syncOptions is 'disabled'
         delete profile['syncOptions']
         delete profile['syncError']
@@ -354,8 +354,8 @@ class Options
 
   ###*
   # Parse options in various formats (including JSON & base64).
-  # @param {OmegaOptions|string} options The options to parse
-  # @returns {Promise<OmegaOptions>} The parsed options.
+  # @param {ProxyOptions|string} options The options to parse
+  # @returns {Promise<ProxyOptions>} The parsed options.
   ###
   parseOptions: (options) ->
     if typeof options == 'string'
@@ -373,8 +373,8 @@ class Options
 
   ###*
   # Reset the options to the given options or initial options.
-  # @param {?OmegaOptions} options The options to set. Defaults to initial.
-  # @returns {Promise<OmegaOptions>} The options just applied
+  # @param {?ProxyOptions} options The options to set. Defaults to initial.
+  # @returns {Promise<ProxyOptions>} The options just applied
   ###
   reset: (options) ->
     @log.method('Options#reset', this, arguments)
@@ -402,13 +402,13 @@ class Options
 
   ###*
   # Return the default options used initially and on resets.
-  # @returns {?OmegaOptions} The default options.
+  # @returns {?ProxyOptions} The default options.
   ###
   getDefaultOptions: -> require('./default_options')()
 
   ###*
   # Return all options.
-  # @returns {?OmegaOptions} The options.
+  # @returns {?ProxyOptions} The options.
   ###
   getAll: -> @_options
 
@@ -416,12 +416,12 @@ class Options
   # Get profile by name.
   # @returns {?{}} The profile, or undefined if no such profile.
   ###
-  profile: (name) -> OmegaPac.Profiles.byName(name, @_options)
+  profile: (name) -> ProxyPac.Profiles.byName(name, @_options)
 
   ###*
   # Apply the patch to the current options.
   # @param {jsondiffpatch} patch The patch to apply
-  # @returns {Promise<OmegaOptions>} The updated options
+  # @returns {Promise<ProxyOptions>} The updated options
   ###
   patch: (patch) ->
     return unless patch
@@ -455,7 +455,7 @@ class Options
       else
         if key[0] == '+'
           if checkRev and @_options[key]
-            result = OmegaPac.Revision.compare(@_options[key].revision,
+            result = ProxyPac.Revision.compare(@_options[key].revision,
               value.revision)
             continue if result >= 0
           profilesChanged = true
@@ -531,9 +531,9 @@ class Options
     seenQuickSwitchProfile = {}
     validQuickSwitchProfiles = quickSwitchProfiles.filter (name) =>
       return false if not name
-      key = OmegaPac.Profiles.nameAsKey(name)
+      key = ProxyPac.Profiles.nameAsKey(name)
       return false if seenQuickSwitchProfile[key]
-      return false if not OmegaPac.Profiles.byName(name, @_options)
+      return false if not ProxyPac.Profiles.byName(name, @_options)
       seenQuickSwitchProfile[key] = true
       return true
     if validQuickSwitchProfiles.length != quickSwitchProfiles.length
@@ -584,7 +584,7 @@ class Options
 
   _profileNotFound: (name) ->
     @log.error("Profile #{name} not found! Things may go very, very wrong.")
-    return OmegaPac.Profiles.create({
+    return ProxyPac.Profiles.create({
       name: name
       profileType: 'VirtualProfile'
       defaultProfileName: 'direct'
@@ -597,20 +597,20 @@ class Options
   # @returns {string} The compiled
   ###
   pacForProfile: (profile, compress = false) ->
-    ast = OmegaPac.PacGenerator.script(@_options, profile,
+    ast = ProxyPac.PacGenerator.script(@_options, profile,
       profileNotFound: @_profileNotFound.bind(this))
     if compress
-      ast = OmegaPac.PacGenerator.compress(ast)
-    Promise.resolve OmegaPac.PacGenerator.ascii(ast.print_to_string())
+      ast = ProxyPac.PacGenerator.compress(ast)
+    Promise.resolve ProxyPac.PacGenerator.ascii(ast.print_to_string())
 
   _setAvailableProfiles: ->
     profile = if @_currentProfileName then @currentProfile() else null
     profiles = {}
-    currentIncludable = profile && OmegaPac.Profiles.isIncludable(profile)
+    currentIncludable = profile && ProxyPac.Profiles.isIncludable(profile)
     allReferenceSet = null
-    if not profile or not OmegaPac.Profiles.isInclusive(profile)
+    if not profile or not ProxyPac.Profiles.isInclusive(profile)
       results = []
-    OmegaPac.Profiles.each @_options, (key, p) =>
+    ProxyPac.Profiles.each @_options, (key, p) =>
       profiles[key] =
         name: p.name
         profileType: p.profileType
@@ -622,18 +622,18 @@ class Options
         if not allReferenceSet?
           allReferenceSet =
             if profile
-              OmegaPac.Profiles.allReferenceSet(profile, @_options,
+              ProxyPac.Profiles.allReferenceSet(profile, @_options,
                 profileNotFound: @_profileNotFound.bind(this))
             else
               {}
         if allReferenceSet[key]
           profiles[key].validResultProfiles =
-            OmegaPac.Profiles.validResultProfilesFor(p, @_options)
+            ProxyPac.Profiles.validResultProfilesFor(p, @_options)
               .map (result) -> result.name
-      if currentIncludable and OmegaPac.Profiles.isIncludable(p)
+      if currentIncludable and ProxyPac.Profiles.isIncludable(p)
         results?.push(p.name)
-    if profile and OmegaPac.Profiles.isInclusive(profile)
-      results = OmegaPac.Profiles.validResultProfilesFor(profile, @_options)
+    if profile and ProxyPac.Profiles.isInclusive(profile)
+      results = ProxyPac.Profiles.validResultProfilesFor(profile, @_options)
       results = results.map (profile) -> profile.name
     @_state.set({
       'availableProfiles': profiles
@@ -653,13 +653,13 @@ class Options
   ###
   applyProfile: (name, options) ->
     @log.method('Options#applyProfile', this, arguments)
-    profile = OmegaPac.Profiles.byName(name, @_options)
+    profile = ProxyPac.Profiles.byName(name, @_options)
     if not profile
       return Promise.reject new ProfileNotExistError(name)
 
     @_currentProfileName = profile.name
     @_isSystem = options?.system || (profile.profileType == 'SystemProfile')
-    @_watchingProfiles = OmegaPac.Profiles.allReferenceSet(profile, @_options,
+    @_watchingProfiles = ProxyPac.Profiles.allReferenceSet(profile, @_options,
       profileNotFound: @_profileNotFound.bind(this))
 
     @_state.set({
@@ -674,16 +674,16 @@ class Options
     if options? and options.proxy == false
       return Promise.resolve()
     @_tempProfileActive = false
-    if @_tempProfile? and OmegaPac.Profiles.isIncludable(profile)
+    if @_tempProfile? and ProxyPac.Profiles.isIncludable(profile)
       @_tempProfileActive = true
       if @_tempProfile.defaultProfileName != profile.name
         @_tempProfile.defaultProfileName = profile.name
         @_tempProfile.color = profile.color
-        OmegaPac.Profiles.updateRevision(@_tempProfile)
+        ProxyPac.Profiles.updateRevision(@_tempProfile)
 
       removedKeys = []
       for own key, list of @_tempProfileRulesByProfile
-        if not OmegaPac.Profiles.byKey(key, @_options)
+        if not ProxyPac.Profiles.byKey(key, @_options)
           removedKeys.push(key)
           for rule in list
             rule.profileName = null
@@ -691,9 +691,9 @@ class Options
       if removedKeys.length > 0
         for key in removedKeys
           delete @_tempProfileRulesByProfile[key]
-        OmegaPac.Profiles.updateRevision(@_tempProfile)
+        ProxyPac.Profiles.updateRevision(@_tempProfile)
 
-      @_watchingProfiles = OmegaPac.Profiles.allReferenceSet(@_tempProfile,
+      @_watchingProfiles = ProxyPac.Profiles.allReferenceSet(@_tempProfile,
         @_options, profileNotFound: @_profileNotFound.bind(this))
 
       applyProxy = @proxyImpl.applyProfile(@_tempProfile, profile, @_options)
@@ -718,7 +718,7 @@ class Options
   ###
   currentProfile: ->
     if @_currentProfileName
-      OmegaPac.Profiles.byName(@_currentProfileName, @_options)
+      ProxyPac.Profiles.byName(@_currentProfileName, @_options)
     else
       @_externalProfile
 
@@ -764,7 +764,7 @@ class Options
     return true if not @_currentProfileName
     return false if @_tempProfileActive
     currentProfile = @currentProfile()
-    return false if OmegaPac.Profiles.isInclusive(currentProfile)
+    return false if ProxyPac.Profiles.isInclusive(currentProfile)
     return true
 
   ###*
@@ -780,15 +780,15 @@ class Options
   updateProfile: (name, opt_bypass_cache) ->
 #    @log.method('Options#updateProfile', this, arguments)
     results = {}
-    OmegaPac.Profiles.each @_options, (key, profile) =>
+    ProxyPac.Profiles.each @_options, (key, profile) =>
       if name?
         if Array.isArray(name)
           return unless name.indexOf(profile.name) >= 0
         else
           return unless profile.name == name
-      url = OmegaPac.Profiles.updateUrl(profile)
+      url = ProxyPac.Profiles.updateUrl(profile)
       if url
-        type_hints = OmegaPac.Profiles.updateContentTypeHints(profile)
+        type_hints = ProxyPac.Profiles.updateContentTypeHints(profile)
         headers = {}
         if profile.headers
           for header in profile.headers
@@ -801,11 +801,11 @@ class Options
           # So empty data indicates success without any update (e.g. 304).
           return profile unless data
           generateSHA256(data).then((dataSHA256) =>
-            profile = OmegaPac.Profiles.byKey(key, @_options)
+            profile = ProxyPac.Profiles.byKey(key, @_options)
             profile.lastUpdate = new Date().toISOString()
-            if OmegaPac.Profiles.update(profile, data) or not profile.sha256
+            if ProxyPac.Profiles.update(profile, data) or not profile.sha256
               profile.sha256 =  dataSHA256
-              OmegaPac.Profiles.dropCache(profile)
+              ProxyPac.Profiles.dropCache(profile)
               changes = {}
               changes[key] = profile
               @_setOptions(changes).return(profile)
@@ -832,11 +832,11 @@ class Options
   _replaceRefChanges: (fromName, toName, changes) ->
     changes ?= {}
 
-    OmegaPac.Profiles.each @_options, (key, p) ->
+    ProxyPac.Profiles.each @_options, (key, p) ->
       return if p.name == fromName or p.name == toName
-      if OmegaPac.Profiles.replaceRef(p, fromName, toName)
-        OmegaPac.Profiles.updateRevision(p)
-        changes[OmegaPac.Profiles.nameAsKey(p)] = p
+      if ProxyPac.Profiles.replaceRef(p, fromName, toName)
+        ProxyPac.Profiles.updateRevision(p)
+        changes[ProxyPac.Profiles.nameAsKey(p)] = p
 
     if @_options['-startupProfileName'] == fromName
       changes['-startupProfileName'] = toName
@@ -855,11 +855,11 @@ class Options
   # Replace all references of profile fromName to toName.
   # @param {String} fromName The original profile name
   # @param {String} toname The target profile name
-  # @returns {Promise<OmegaOptions>} The updated options
+  # @returns {Promise<ProxyOptions>} The updated options
   ###
   replaceRef: (fromName, toName) ->
     @log.method('Options#replaceRef', this, arguments)
-    profile = OmegaPac.Profiles.byName(fromName, @_options)
+    profile = ProxyPac.Profiles.byName(fromName, @_options)
     if not profile
       return Promise.reject new ProfileNotExistError(fromName)
 
@@ -867,7 +867,7 @@ class Options
     for own key, value of changes
       @_options[key] = value
 
-    fromKey = OmegaPac.Profiles.nameAsKey(fromName)
+    fromKey = ProxyPac.Profiles.nameAsKey(fromName)
     if @_watchingProfiles[fromKey]
       if @_currentProfileName == fromName
         @_currentProfileName = toName
@@ -879,25 +879,25 @@ class Options
   # Rename a profile and update references and options
   # @param {String} fromName The original profile name
   # @param {String} toname The target profile name
-  # @returns {Promise<OmegaOptions>} The updated options
+  # @returns {Promise<ProxyOptions>} The updated options
   ###
   renameProfile: (fromName, toName) ->
     @log.method('Options#renameProfile', this, arguments)
-    if OmegaPac.Profiles.byName(toName, @_options)
+    if ProxyPac.Profiles.byName(toName, @_options)
       return Promise.reject new Error("Target name #{name} already taken!")
-    profile = OmegaPac.Profiles.byName(fromName, @_options)
+    profile = ProxyPac.Profiles.byName(fromName, @_options)
     if not profile
       return Promise.reject new ProfileNotExistError(fromName)
 
     profile.name = toName
     changes = {}
-    changes[OmegaPac.Profiles.nameAsKey(profile)] = profile
+    changes[ProxyPac.Profiles.nameAsKey(profile)] = profile
 
     @_replaceRefChanges(fromName, toName, changes)
     for own key, value of changes
       @_options[key] = value
 
-    fromKey = OmegaPac.Profiles.nameAsKey(fromName)
+    fromKey = ProxyPac.Profiles.nameAsKey(fromName)
     changes[fromKey] = undefined
     delete @_options[fromKey]
 
@@ -924,11 +924,11 @@ class Options
   addTempRule: (domain, profileName, toggle) ->
     @log.method('Options#addTempRule', this, arguments)
     return Promise.resolve() if not @_currentProfileName
-    profile = OmegaPac.Profiles.byName(profileName, @_options)
+    profile = ProxyPac.Profiles.byName(profileName, @_options)
     if not profile
       return Promise.reject new ProfileNotExistError(profileName)
     if not @_tempProfile?
-      @_tempProfile = OmegaPac.Profiles.create('', 'SwitchProfile')
+      @_tempProfile = ProxyPac.Profiles.create('', 'SwitchProfile')
       currentProfile = @currentProfile()
       @_tempProfile.color = currentProfile.color
       @_tempProfile.defaultProfileName = currentProfile.name
@@ -943,7 +943,7 @@ class Options
 
     if rule and rule.profileName
       if rule.profileName != profileName
-        key = OmegaPac.Profiles.nameAsKey(rule.profileName)
+        key = ProxyPac.Profiles.nameAsKey(rule.profileName)
         list = @_tempProfileRulesByProfile[key]
         list.splice(list.indexOf(rule), 1)
 
@@ -964,7 +964,7 @@ class Options
       @_tempProfileRules[domain] = rule
       changed = 1
 
-    key = OmegaPac.Profiles.nameAsKey(profileName)
+    key = ProxyPac.Profiles.nameAsKey(profileName)
     rulesByProfile = @_tempProfileRulesByProfile[key]
     if not rulesByProfile?
       rulesByProfile = @_tempProfileRulesByProfile[key] = []
@@ -974,7 +974,7 @@ class Options
       rulesByProfile.splice(rulesByProfile.indexOf(rule), 1)
 
     if changed
-      OmegaPac.Profiles.updateRevision(@_tempProfile)
+      ProxyPac.Profiles.updateRevision(@_tempProfile)
       @applyProfile(@_currentProfileName)
     else
       Promise.resolve()
@@ -1003,11 +1003,11 @@ class Options
   addCondition: (condition, profileName) ->
     @log.method('Options#addCondition', this, arguments)
     return Promise.resolve() if not @_currentProfileName
-    profile = OmegaPac.Profiles.byName(@_currentProfileName, @_options)
+    profile = ProxyPac.Profiles.byName(@_currentProfileName, @_options)
     if not profile?.rules?
       return Promise.reject new Error(
         "Cannot add condition to Profile #{@profile.name} (#{profile.type})")
-    target = OmegaPac.Profiles.byName(profileName, @_options)
+    target = ProxyPac.Profiles.byName(profileName, @_options)
     if not target?
       return Promise.reject new ProfileNotExistError(profileName)
     if not Array.isArray(condition)
@@ -1015,9 +1015,9 @@ class Options
 
     for cond in condition
       # Try to remove rules with the same condition first.
-      tag = OmegaPac.Conditions.tag(cond)
+      tag = ProxyPac.Conditions.tag(cond)
       for i in [0...profile.rules.length]
-        if OmegaPac.Conditions.tag(profile.rules[i].condition) == tag
+        if ProxyPac.Conditions.tag(profile.rules[i].condition) == tag
           profile.rules.splice(i, 1)
           break
 
@@ -1033,9 +1033,9 @@ class Options
           profileName: profileName
         })
 
-    OmegaPac.Profiles.updateRevision(profile)
+    ProxyPac.Profiles.updateRevision(profile)
     changes = {}
-    changes[OmegaPac.Profiles.nameAsKey(profile)] = profile
+    changes[ProxyPac.Profiles.nameAsKey(profile)] = profile
     @_setOptions(changes)
 
   ###*
@@ -1046,20 +1046,20 @@ class Options
   ###
   setDefaultProfile: (profileName, defaultProfileName) ->
     @log.method('Options#setDefaultProfile', this, arguments)
-    profile = OmegaPac.Profiles.byName(profileName, @_options)
+    profile = ProxyPac.Profiles.byName(profileName, @_options)
     if not profile?
       return Promise.reject new ProfileNotExistError(profileName)
     else if not profile.defaultProfileName?
       return Promise.reject new Error("Profile #{@profile.name} " +
         "(@{profile.type}) does not have defaultProfileName!")
-    target = OmegaPac.Profiles.byName(defaultProfileName, @_options)
+    target = ProxyPac.Profiles.byName(defaultProfileName, @_options)
     if not target?
       return Promise.reject new ProfileNotExistError(defaultProfileName)
 
     profile.defaultProfileName = defaultProfileName
-    OmegaPac.Profiles.updateRevision(profile)
+    ProxyPac.Profiles.updateRevision(profile)
     changes = {}
-    changes[OmegaPac.Profiles.nameAsKey(profile)] = profile
+    changes[ProxyPac.Profiles.nameAsKey(profile)] = profile
     @_setOptions(changes)
 
   ###*
@@ -1069,12 +1069,12 @@ class Options
   ###
   addProfile: (profile) ->
     @log.method('Options#addProfile', this, arguments)
-    if OmegaPac.Profiles.byName(profile.name, @_options)
+    if ProxyPac.Profiles.byName(profile.name, @_options)
       return Promise.reject(
         new Error("Target name #{profile.name} already taken!"))
     else
       changes = {}
-      changes[OmegaPac.Profiles.nameAsKey(profile)] = profile
+      changes[ProxyPac.Profiles.nameAsKey(profile)] = profile
       @_setOptions(changes)
 
   ###*
@@ -1091,19 +1091,19 @@ class Options
       if @_tempProfileActive
         @_tempProfile
       else
-        OmegaPac.Profiles.byName(@_currentProfileName, @_options)
+        ProxyPac.Profiles.byName(@_currentProfileName, @_options)
     while profile
       lastProfile = profile
-      result = OmegaPac.Profiles.match(profile, request)
+      result = ProxyPac.Profiles.match(profile, request)
       break unless result?
       results.push(result)
       if Array.isArray(result)
         next = result[0]
       else if result.profileName
-        next = OmegaPac.Profiles.nameAsKey(result.profileName)
+        next = ProxyPac.Profiles.nameAsKey(result.profileName)
       else
         break
-      profile = OmegaPac.Profiles.byKey(next, @_options)
+      profile = ProxyPac.Profiles.byKey(next, @_options)
     Promise.resolve(profile: lastProfile, results: results)
 
   ###*
@@ -1124,7 +1124,7 @@ class Options
           return
         else
           @_revertToProfileName ?= @_currentProfileName
-    p = OmegaPac.Profiles.byName(profile.name, @_options)
+    p = ProxyPac.Profiles.byName(profile.name, @_options)
     if p
       if args?.internal
         @applyProfile(p.name, {proxy: false})

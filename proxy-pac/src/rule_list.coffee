@@ -52,11 +52,11 @@ module.exports = exports =
       return exclusive_rules.concat normal_rules
 
   'Switchy':
-    omegaPrefix: '[SwitchyOmega Conditions'
+    proxyPrefix: '[SwitchyOmega Conditions'
     specialLineStart: "[;#@!"
 
     detect: (text) ->
-      if strStartsWith(text, exports['Switchy'].omegaPrefix)
+      if strStartsWith(text, exports['Switchy'].proxyPrefix)
         return true
       return
 
@@ -69,7 +69,7 @@ module.exports = exports =
       text = ruleList.trim()
       switchy = exports['Switchy']
       parser = switchy.getParser(text)
-      return unless parser == 'parseOmega'
+      return unless parser == 'parseProxy'
       return unless /(^|\n)@with\s+results?(\r|\n|$)/i.test(text)
       refs = {}
       for line in text.split(/\n|\r/)
@@ -83,7 +83,7 @@ module.exports = exports =
           refs['+' + profile] = profile
       refs
 
-    # For the omega rule list format, please see the following wiki page:
+    # For the proxy rule list format, please see the following wiki page:
     # https://github.com/FelisCatus/SwitchyOmega/wiki/SwitchyOmega-conditions-format
     compose: ({rules, defaultProfileName}, {withResult, useExclusive} = {}) ->
       eol = '\r\n'
@@ -114,8 +114,8 @@ module.exports = exports =
 
     getParser: (text) ->
       switchy = exports['Switchy']
-      parser = 'parseOmega'
-      if not strStartsWith(text, switchy.omegaPrefix)
+      parser = 'parseProxy'
+      if not strStartsWith(text, switchy.proxyPrefix)
         if text[0] == '#' or text.indexOf('\n#') >= 0
           parser = 'parseLegacy'
       return parser
@@ -174,7 +174,7 @@ module.exports = exports =
       # Exclusive rules have higher priority, so they come first.
       return exclusive_rules.concat normal_rules
 
-    parseOmega: (text, matchProfileName, defaultProfileName, args = {}) ->
+    parseProxy: (text, matchProfileName, defaultProfileName, args = {}) ->
       {strict} = args
       if strict
         error = (fields) ->

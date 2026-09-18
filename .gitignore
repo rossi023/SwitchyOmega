@@ -7,4 +7,4 @@ package-lock.json
 *.zip
 proxy-pac/proxy_pac.min.js
 proxy-target/proxy_target.min.js
-omega-target-chromium-extension/proxy_target_chromium_extension.min.js
+proxy-target-chromium-extension/proxy_target_chromium_extension.min.js

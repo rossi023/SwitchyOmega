@@ -235,7 +235,7 @@ describe 'RuleList', ->
           pattern: 'http://www.example.com/*'
       )
 
-  describe 'Switchy (omega format)', ->
+  describe 'Switchy (proxy format)', ->
     parse = RuleList['Switchy'].parse
     compose = RuleList['Switchy'].compose
     it 'should parse empty rule lists', ->

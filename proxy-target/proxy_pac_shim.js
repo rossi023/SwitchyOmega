@@ -1,1 +1,1 @@
-module.exports = OmegaPac;
+module.exports = ProxyPac;

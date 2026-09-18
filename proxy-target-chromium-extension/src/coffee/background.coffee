@@ -1,0 +1,467 @@
+ProxyTargetCurrent = Object.create(ProxyTargetChromium)
+Promise = ProxyTargetCurrent.Promise
+Promise.longStackTraces()
+
+ProxyTargetCurrent.Log = Object.create(ProxyTargetCurrent.Log)
+Log = ProxyTargetCurrent.Log
+
+
+BUILTINSYNCKEY = '网罗代理Sync'
+
+globalThis.isBrowserRestart = false
+startupCheck = ->
+  setTimeout(->
+    globalThis.isBrowserRestart = false
+  , 2000)
+  return globalThis.isBrowserRestart
+options = null
+
+chrome.runtime.onStartup.addListener ->
+  globalThis.isBrowserRestart = true
+
+
+
+chrome.contextMenus?.onClicked.addListener((info, tab) ->
+  options?.ready.then( ->
+    switch info.menuItemId
+      when 'inspectPage', 'inspectLink', 'inspectElement', 'inspectFrame'
+        options._inspect.inspect(info, tab)
+  )
+)
+
+upgradeMigrateFn = (details) ->
+  if details.reason is 'install'
+    options.ready.then( ->
+      console.log('fresh install:', details)
+    )
+  if details.reason is 'update'
+    manifest = chrome.runtime.getManifest()
+    currentVersion = manifest.version
+    previousVersion = details.previousVersion
+    if compareVersions.compare currentVersion, previousVersion, '>'
+      if compareVersions.compare '3.3.0', currentVersion, '>'
+        options.ready.then( ->
+          chrome.storage.sync.clear()
+          chrome.storage.local.clear()
+          idbKeyval.clear()
+        )
+      else
+        switch currentVersion
+          when '3.3.10'
+            options.ready.then( ->
+              # TODO check
+              true
+            )
+          when '3.3.11'
+            options.ready.then( ->
+              # TODO clear all disabled syncOptions
+              true
+            )
+chrome.runtime.onInstalled.addListener( (details) ->
+  setTimeout(->
+    upgradeMigrateFn(details)
+  , 2)
+)
+
+dispName = (name) -> chrome.i18n.getMessage('profile_' + name) || name
+
+zeroBackground = (zeroStorage, opts) ->
+  unhandledPromises = []
+  unhandledPromisesId = []
+  unhandledPromisesNextId = 1
+  Promise.onPossiblyUnhandledRejection (reason, promise) ->
+    Log.error("[#{unhandledPromisesNextId}] Unhandled rejection:\n", reason)
+    unhandledPromises.push(promise)
+    unhandledPromisesId.push(unhandledPromisesNextId)
+    unhandledPromisesNextId++
+  Promise.onUnhandledRejectionHandled (promise) ->
+    index = unhandledPromises.indexOf(promise)
+    Log.log("[#{unhandledPromisesId[index]}] Rejection handled!", promise)
+    unhandledPromises.splice(index, 1)
+    unhandledPromisesId.splice(index, 1)
+
+  # The action icon is a static logo now. Dynamic profile-colored drawing
+  # (drawNetwork) has been disabled; drawIcon always returns null so that
+  # setIcon keeps the static icon from the manifest.
+  drawIcon = (resultColor, profileColor) ->
+    return null
+
+  charCodeUnderscore = '_'.charCodeAt(0)
+  isHidden = (name) -> (name.charCodeAt(0) == charCodeUnderscore and
+    name.charCodeAt(1) == charCodeUnderscore)
+
+
+  actionForUrl = (url, opts = {}) ->
+    options.ready.then(->
+      request = ProxyPac.Conditions.requestFromUrl(url)
+      options.matchProfile(request)
+    ).then(({profile, results}) ->
+      current = options.currentProfile()
+      currentName = dispName(current.name)
+      if current.profileType == 'VirtualProfile'
+        realCurrentName = current.defaultProfileName
+        currentName += " [#{dispName(realCurrentName)}]"
+        current = options.profile(realCurrentName)
+      details = ''
+      direct = false
+      attached = false
+      prefix = ''
+      condition2Str = (condition) ->
+        condition.pattern || ProxyPac.Conditions.str(condition)
+      for result in results
+        if Array.isArray(result)
+          if not result[1]?
+            attached = false
+            name = result[0]
+            if name[0] == '+'
+              name = name.substr(1)
+            if isHidden(name)
+              attached = true
+            else if name != realCurrentName
+              details +=
+                chrome.i18n.getMessage 'browserAction_defaultRuleDetails'
+              details += " => #{dispName(name)}\n"
+          else if result[1].length == 0
+            if result[0] == 'DIRECT'
+              details += chrome.i18n.getMessage('browserAction_directResult')
+              details += '\n'
+              direct = true
+            else
+              details += "#{result[0]}\n"
+          else if typeof result[1] == 'string'
+            details += "#{result[1]} => #{result[0]}\n"
+          else
+            condition = condition2Str(result[1].condition ? result[1])
+            details += "#{condition} => "
+            if result[0] == 'DIRECT'
+              details += chrome.i18n.getMessage('browserAction_directResult')
+              details += '\n'
+              direct = true
+            else
+              details += "#{result[0]}\n"
+        else if result.profileName
+          if result.isTempRule
+            details += chrome.i18n.getMessage('browserAction_tempRulePrefix')
+            prefix = chrome.i18n.getMessage('browserAction_tempRulePrefix')
+          else if attached
+            details += chrome.i18n.getMessage('browserAction_attachedPrefix')
+            prefix = chrome.i18n.getMessage('browserAction_attachedPrefix')
+            attached = false
+          condition = result.source ? condition2Str(result.condition)
+          details += "#{condition} => #{dispName(result.profileName)}\n"
+
+      if not details
+        details = options.printProfile(current)
+
+      resultColor = profile.color
+      profileColor = current.color
+
+      icon = null
+      if direct
+        resultColor = options.profile('direct').color
+        profileColor = profile.color
+      else if profile.name == current.name and options.isCurrentProfileStatic()
+        resultColor = profileColor = profile.color
+        unless opts.skipIcon
+          icon = drawIcon(profile.color)
+      else
+        resultColor = profile.color
+        profileColor = current.color
+
+      unless opts.skipIcon
+        icon ?= drawIcon(resultColor, profileColor)
+
+      shortTitle = currentName
+      if profile.name != currentName
+        shortTitle += ' => ' + profile.name
+      if options._options['-showResultProfileOnActionBadgeText']
+        badgeText = profile.name or ''
+        if profile.builtin
+          badgeText = dispName(profile.name + '_badge_text')
+        badgeText = badgeText.substring(0, 4)
+
+      return {
+        title: chrome.i18n.getMessage('browserAction_titleWithResult', [
+          currentName
+          dispName(profile.name)
+          details
+        ])
+        currentName: currentName,
+        name: dispName(profile.name)
+        profile: profile
+        badgeText: badgeText
+        shortTitle: shortTitle
+        prefix: prefix
+        icon: icon
+        resultColor: resultColor
+        profileColor: profileColor
+      }
+    ).catch -> return null
+
+
+  storage = new ProxyTargetCurrent.Storage('local')
+  state = new ProxyTargetCurrent.BrowserStorage(zeroStorage, 'proxy.local.')
+
+  if chrome?.storage?.sync or browser?.storage?.sync
+    syncStorage = new ProxyTargetCurrent.SyncStorage('sync', state)
+    builtInSyncStorage = new ProxyTargetCurrent.Storage('sync')
+    sync = new ProxyTargetCurrent.OptionsSync(
+      syncStorage, builtInSyncStorage, state
+    )
+    sync.transformValue = ProxyTargetCurrent.Options.transformValueForSync
+
+  proxyImpl = ProxyTargetCurrent.proxy.getProxyImpl(Log)
+  state.set({proxyImplFeatures: proxyImpl.features})
+  options = new ProxyTargetCurrent.Options(storage, state, Log, sync,
+    proxyImpl)
+
+  options._actionForUrl = actionForUrl
+
+  options.initWithOptions(null, startupCheck)
+
+  options.externalApi = new ProxyTargetCurrent.ExternalApi(options)
+  options.externalApi.listen()
+
+  if chrome.runtime.id != ProxyTargetCurrent.SwitchySharp.extId and false
+    options.switchySharp = new ProxyTargetCurrent.SwitchySharp()
+    options.switchySharp.monitor()
+  if sync and options and builtInSyncStorage
+    builtInSyncStorage.watch [
+      BUILTINSYNCKEY
+    ], (changes, opts = {}) ->
+      builtInSyncConfig = changes[BUILTINSYNCKEY]
+      if builtInSyncConfig
+        {
+          gistId, gistToken, lastGistCommit, syncUsername, syncBackendType
+        } = builtInSyncConfig
+        stateUpdate = {gistId, gistToken}
+        stateUpdate.syncUsername = syncUsername if syncUsername?
+        stateUpdate.syncBackendType = syncBackendType if syncBackendType?
+        state.set(stateUpdate)
+        if sync.enabled
+          console.log('check gist change', lastGistCommit)
+          sync.init({
+            gistId, gistToken, username: syncUsername, syncBackendType
+          })
+          state.get({
+            'lastGistCommit': ''
+          }).then((syncConfig) ->
+            if syncConfig.lastGistCommit isnt lastGistCommit
+              console.log(
+                'no match last gist commit, will check change',
+                syncConfig.lastGistCommit
+              )
+              sync.checkChange()
+          )
+        else
+          # try to enable sync
+          state.get({
+            'syncOptions': ''
+            'lastGistCommit': ''
+          }).then((syncConfig) ->
+            return if syncConfig.lastGistCommit is lastGistCommit
+            if syncConfig.syncOptions in ['pristine', 'conflict']
+              state.set({
+                syncOptions: 'conflict'
+              }).then( ->
+                options.setOptionsSync(true, {
+                  gistId,
+                  gistToken,
+                  username: syncUsername,
+                  syncBackendType,
+                  useBuiltInSync: true,
+                  force: true
+                })
+              )
+          )
+  tabs = new ProxyTargetCurrent.ChromeTabs(actionForUrl)
+  tabs.watch()
+
+  options._inspect = new ProxyTargetCurrent.Inspect (url, tab) ->
+    if url == tab.url
+      options.clearBadge()
+      tabs.processTab(tab)
+      state.remove('inspectUrl')
+      return
+
+    state.set({inspectUrl: url})
+
+    actionForUrl(url).then (action) ->
+      return if not action
+      parsedUrl = ProxyTargetCurrent.Url.parse(url)
+      if parsedUrl.hostname == ProxyTargetCurrent.Url.parse(tab.url).hostname
+        urlDisp = parsedUrl.path
+      else
+        urlDisp = parsedUrl.hostname
+
+      title = chrome.i18n.getMessage(
+        'browserAction_titleInspect', urlDisp) + '\n'
+      title += action.title
+      chrome.action.setTitle(title: title, tabId: tab.id)
+      tabs.setTabBadge(tab, {
+        text: '#'
+        color: action.resultColor
+      })
+
+  options.setProxyNotControllable(null)
+  timeout = null
+
+  proxyImpl.watchProxyChange (details) ->
+    return if options.externalApi.disabled
+    return unless details
+    notControllableBefore = options.proxyNotControllable()
+    internal = false
+    noRevert = false
+    switch details['levelOfControl']
+      when "controlled_by_other_extensions", "not_controllable"
+        reason =
+          if details['levelOfControl'] == 'not_controllable'
+            'policy'
+          else
+            'app'
+        options.setProxyNotControllable(reason)
+        noRevert = true
+      else
+        options.setProxyNotControllable(null)
+
+    if details['levelOfControl'] == 'controlled_by_this_extension'
+      internal = true
+      return if not notControllableBefore
+    Log.log('external proxy: ', details)
+
+    # Chromium will send chrome.proxy.settings.onChange on extension unload,
+    # just after the current extension has lost control of the proxy settings.
+    # This is just annoying, and may change the currentProfileName state
+    # suprisingly.
+    # To workaround this issue, wait for some time before setting the proxy.
+    # However this will cause some delay before the settings are processed.
+    clearTimeout(timeout) if timeout?
+    parsed = null
+    timeout = setTimeout (->
+      if parsed
+        options.setExternalProfile(parsed,
+          {noRevert: noRevert, internal: internal})
+    ), 500
+
+    parsed = proxyImpl.parseExternalProfile(details, options._options)
+    return
+
+  external = false
+  options.currentProfileChanged = (reason) ->
+    iconCache = {}
+
+    if reason == 'external'
+      external = true
+    else if reason != 'clearBadge'
+      external = false
+
+    current = options.currentProfile()
+    currentName = ''
+    if current
+      currentName = dispName(current.name)
+      if current.profileType == 'VirtualProfile'
+        realCurrentName = current.defaultProfileName
+        currentName += " [#{dispName(realCurrentName)}]"
+        current = options.profile(realCurrentName)
+
+    details = options.printProfile(current)
+    if currentName
+      title = chrome.i18n.getMessage('browserAction_titleWithResult', [
+        currentName, '', details])
+      shortTitle = currentName
+    else
+      title = details
+      shortTitle = details
+
+    if external and current.profileType != 'SystemProfile'
+      message = chrome.i18n.getMessage('browserAction_titleExternalProxy')
+      title = message + '\n' + title
+      shortTitle = details
+      options.setBadge()
+
+    if not current.name or not ProxyPac.Profiles.isInclusive(current)
+      icon = drawIcon(current.color)
+    else
+      icon = drawIcon(options.profile('direct').color, current.color)
+
+    tabs.resetAll(
+      icon: icon
+      title: title
+      shortTitle: shortTitle
+    )
+
+  encodeError = (obj) ->
+    if obj instanceof Error
+      {
+        _error: 'error'
+        name: obj.name
+        message: obj.message
+        stack: obj.stack
+        original: obj
+      }
+    else
+      obj
+
+  refreshActivePageIfEnabled = ->
+    return if zeroStorage['proxy.local.refreshOnProfileChange'] == 'false'
+    chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
+      url = tabs[0].pendingUrl or tabs[0].url
+      return if not url
+      return if url.substr(0, 6) == 'chrome'
+      return if url.substr(0, 6) == 'about:'
+      return if url.substr(0, 4) == 'moz-'
+      if tabs[0].pendingUrl
+        chrome.tabs.update(tabs[0].id, {url: url})
+      else
+        chrome.tabs.reload(tabs[0].id, {bypassCache: true})
+
+
+  resetAllOptions = ->
+    options.ready.then ->
+      options._watchStop?()
+      options._syncWatchStop?()
+      Promise.all([
+        chrome.storage.sync.clear(),
+        chrome.storage.local.clear()
+      ])
+  chrome.runtime.onMessage.addListener (request, sender, respond) ->
+    return unless request and request.method
+    options.ready.then ->
+      if request.method == 'resetAllOptions'
+        target = globalThis
+        method = resetAllOptions
+      else if request.method == 'getState'
+        target = state
+        method = state.get
+      else if request.method == 'setState'
+        target = state
+        method = state.set
+      else
+        target = options
+        method = target[request.method]
+      if typeof method != 'function'
+        Log.error("No such method #{request.method}!")
+        respond(
+          error:
+            reason: 'noSuchMethod'
+        )
+        return
+
+      promise = Promise.resolve().then -> method.apply(target, request.args)
+      if request.refreshActivePage
+        promise.then refreshActivePageIfEnabled
+      return if request.noReply
+
+      promise.then (result) ->
+        if request.method == 'updateProfile'
+          for own key, value of result
+            result[key] = encodeError(value)
+        respond(result: result)
+
+      promise.catch (error) ->
+        Log.error(request.method + ' ==>', error)
+        respond(error: encodeError(error))
+
+    # Wait for my response!
+    return true unless request.noReply
+globalThis.zeroBackground = zeroBackground

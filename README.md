@@ -32,20 +32,20 @@
 
 ```bash
 # 需要 Node.js 20.x
-cd omega-build
+cd proxy-build
 npm run deps    # 安装依赖
 npm run build   # 构建项目
 ```
 
-构建完成后，在 `omega-target-chromium-extension/build` 目录生成可加载的扩展。
+构建完成后，在 `proxy-target-chromium-extension/build` 目录生成可加载的扩展。
 
 ## 项目结构
 
 - `proxy-pac` - PAC 脚本生成模块
 - `proxy-target` - 浏览器无关的配置管理逻辑
-- `omega-web` - Web 配置界面
-- `omega-target-chromium-extension` - Chromium 扩展目标实现
-- `omega-locales` - 多语言翻译文件
+- `proxy-web` - Web 配置界面
+- `proxy-target-chromium-extension` - Chromium 扩展目标实现
+- `proxy-locales` - 多语言翻译文件
 
 ## 许可证
 

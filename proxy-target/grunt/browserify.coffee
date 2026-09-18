@@ -15,7 +15,7 @@ module.exports =
       'proxy_target.min.js': 'index.coffee'
     options:
       alias: [
-        './index.coffee:OmegaTarget'
+        './index.coffee:ProxyTarget'
       ]
       transform: ['coffeeify']
       plugin:
@@ -25,4 +25,4 @@ module.exports =
           []
       browserifyOptions:
         extensions: '.coffee'
-        standalone: 'OmegaTarget'
+        standalone: 'ProxyTarget'
