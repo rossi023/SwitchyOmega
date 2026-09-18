@@ -1,4 +1,4 @@
-angular.module('omega').constant('builtinProfiles',
+angular.module('proxy').constant('builtinProfiles',
   OmegaPac.Profiles.builtinProfiles)
 
 profileColors = [
@@ -7,29 +7,29 @@ profileColors = [
 colors = [].concat(profileColors)
 profileColorPalette = (colors.splice(0, 3) while colors.length)
 
-angular.module('omega').constant('profileColors', profileColors)
-angular.module('omega').constant('profileColorPalette', profileColorPalette)
+angular.module('proxy').constant('profileColors', profileColors)
+angular.module('proxy').constant('profileColorPalette', profileColorPalette)
 
 attachedPrefix = '__ruleListOf_'
-angular.module('omega').constant 'getAttachedName', (name) ->
+angular.module('proxy').constant 'getAttachedName', (name) ->
   attachedPrefix + name
-angular.module('omega').constant 'getParentName', (name) ->
+angular.module('proxy').constant 'getParentName', (name) ->
   if name.indexOf(attachedPrefix) == 0
     name.substr(attachedPrefix.length)
   else
     undefined
 
 charCodeUnderscore = '_'.charCodeAt(0)
-angular.module('omega').constant 'charCodeUnderscore', charCodeUnderscore
-angular.module('omega').constant 'isProfileNameHidden', (name) ->
+angular.module('proxy').constant 'charCodeUnderscore', charCodeUnderscore
+angular.module('proxy').constant 'isProfileNameHidden', (name) ->
   # Hide profiles beginning with underscore.
   name.charCodeAt(0) == charCodeUnderscore
-angular.module('omega').constant 'isProfileNameReserved', (name) ->
+angular.module('proxy').constant 'isProfileNameReserved', (name) ->
   # Reserve profile names beginning with double-underscore.
   (name.charCodeAt(0) == charCodeUnderscore and
   name.charCodeAt(1) == charCodeUnderscore)
 
-angular.module('omega').config ($stateProvider, $urlRouterProvider,
+angular.module('proxy').config ($stateProvider, $urlRouterProvider,
 $httpProvider, $animateProvider, $compileProvider) ->
   $compileProvider.aHrefSanitizationWhitelist(
     /^\s*(https?|ftp|mailto|chrome-extension|moz-extension):/)
@@ -37,16 +37,19 @@ $httpProvider, $animateProvider, $compileProvider) ->
     /^\s*(https?|local|data|chrome-extension|moz-extension):/)
   $animateProvider.classNameFilter(/angular-animate/)
 
-  $urlRouterProvider.otherwise '/about'
+  $urlRouterProvider.otherwise '/profiles'
   
   $urlRouterProvider.otherwise ($injector, $location) ->
     if $location.path() == ''
-      $injector.get('omegaTarget').lastUrl() || '/about'
+      $injector.get('proxyTarget').lastUrl() || '/profiles'
     else
-      '/about'
+      '/profiles'
   
   $stateProvider
-    .state('ui',
+    .state('default',
+      url: '/profiles'
+      templateUrl: 'partials/profile_list.html'
+    ).state('ui',
       url: '/ui'
       templateUrl: 'partials/ui.html'
       #controller: 'UiCtrl'
@@ -75,7 +78,7 @@ $httpProvider, $animateProvider, $compileProvider) ->
       controller: 'AboutCtrl'
     )
 
-angular.module('omega').factory '$exceptionHandler', ($log) ->
+angular.module('proxy').factory '$exceptionHandler', ($log) ->
   return (exception, cause) ->
     return if exception.message == 'transition aborted'
     return if exception.message == 'transition superseded'
@@ -83,26 +86,26 @@ angular.module('omega').factory '$exceptionHandler', ($log) ->
     return if exception.message == 'transition failed'
     $log.error(exception, cause)
 
-angular.module('omega').factory 'omegaDebug', ($window, $rootScope,
+angular.module('proxy').factory 'proxyDebug', ($window, $rootScope,
 $injector) ->
-  omegaDebug = $window.OmegaDebug ? {}
+  proxyDebug = $window.OmegaDebug ? {}
 
-  omegaDebug.downloadLog ?= ->
+  proxyDebug.downloadLog ?= ->
     downloadFile = $injector.get('downloadFile') ? saveAs
     blob = new Blob [localStorage['log']], {type: "text/plain;charset=utf-8"}
-    downloadFile(blob, "OmegaLog_#{Date.now()}.txt")
+    downloadFile(blob, "网罗代理Log_#{Date.now()}.txt")
 
-  omegaDebug.reportIssue ?= ->
+  proxyDebug.reportIssue ?= ->
     $window.open(
       'https://github.com/FelisCatus/SwitchyOmega/issues/new?title=&body=')
     return
 
-  omegaDebug.resetOptions ?= ->
+  proxyDebug.resetOptions ?= ->
     $rootScope.resetOptions()
 
-  omegaDebug
+  proxyDebug
 
-angular.module('omega').factory 'downloadFile', ->
+angular.module('proxy').factory 'downloadFile', ->
   return (blob, filename) ->
     noAutoBom = true
     saveAs(blob, filename, noAutoBom)

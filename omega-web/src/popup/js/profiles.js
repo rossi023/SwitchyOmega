@@ -210,6 +210,12 @@
       targetProfile = profiles['+' + profile.defaultProfileName];
     }
 
+    if (targetProfile.desc) {
+      var descDisp = profileDisp.querySelector('.om-profile-desc');
+      if (descDisp) {
+        descDisp.textContent = targetProfile.desc;
+      }
+    }
     profileDisp.setAttribute('title',
       targetProfile.desc || targetProfile.name || '');
 

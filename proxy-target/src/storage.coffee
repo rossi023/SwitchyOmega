@@ -1,4 +1,4 @@
-### @module omega-target/storage ###
+### @module proxy-target/storage ###
 Promise = require 'bluebird'
 Log = require './log'
 

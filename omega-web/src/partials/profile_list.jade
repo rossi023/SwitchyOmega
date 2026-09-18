@@ -1,0 +1,18 @@
+.page-header
+  h2 {{'options_navHeader_profiles' | tr}}
+section.settings-group.profile-list-group
+  .row
+    button.btn.btn-default.btn-sm.pull-right(type='button' ng-click='newProfile()')
+      span.glyphicon.glyphicon-plus
+      = ' '
+      | {{'options_newProfile' | tr}}
+  ul.profile-list
+    li.profile-list-item(ng-repeat='profile in options | profiles:\'sorted\'' ng-class="{active: currentProfileName === profile.name}")
+      a.profile-list-link(ui-sref='profile({name: profile.name})' ui-sref-active='active')
+        span.profile-list-icon(network-profile-icon='profile' options='options')
+        span.profile-list-info
+          span.profile-list-name {{dispNameFilter(profile)}}
+          span.profile-list-desc(ng-if='profileSummary(profile)') {{profileSummary(profile)}}
+        span.profile-list-type.label.label-success
+          {{('options_profileType' + profile.profileType) | tr}}
+

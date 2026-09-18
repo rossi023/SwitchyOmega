@@ -6,7 +6,7 @@ OmegaTargetCurrent.Log = Object.create(OmegaTargetCurrent.Log)
 Log = OmegaTargetCurrent.Log
 
 
-BUILTINSYNCKEY = 'zeroOmegaSync'
+BUILTINSYNCKEY = '网罗代理Sync'
 
 globalThis.isBrowserRestart = false
 startupCheck = ->
@@ -84,7 +84,7 @@ zeroBackground = (zeroStorage, opts) ->
   drawContext = null
   drawError = null
   drawIcon = (resultColor, profileColor) ->
-    cacheKey = "omega+#{resultColor ? ''}+#{profileColor}"
+    cacheKey = "proxy+#{resultColor ? ''}+#{profileColor}"
     icon = iconCache[cacheKey]
     return icon if icon
     try
@@ -231,7 +231,7 @@ zeroBackground = (zeroStorage, opts) ->
 
 
   storage = new OmegaTargetCurrent.Storage('local')
-  state = new OmegaTargetCurrent.BrowserStorage(zeroStorage, 'omega.local.')
+  state = new OmegaTargetCurrent.BrowserStorage(zeroStorage, 'proxy.local.')
 
   if chrome?.storage?.sync or browser?.storage?.sync
     syncStorage = new OmegaTargetCurrent.SyncStorage('sync', state)
@@ -434,7 +434,7 @@ zeroBackground = (zeroStorage, opts) ->
       obj
 
   refreshActivePageIfEnabled = ->
-    return if zeroStorage['omega.local.refreshOnProfileChange'] == 'false'
+    return if zeroStorage['proxy.local.refreshOnProfileChange'] == 'false'
     chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
       url = tabs[0].pendingUrl or tabs[0].url
       return if not url

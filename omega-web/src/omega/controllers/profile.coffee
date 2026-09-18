@@ -1,13 +1,28 @@
-angular.module('omega').controller 'ProfileCtrl', ($scope, $stateParams,
+angular.module('proxy').controller 'ProfileCtrl', ($scope, $stateParams,
   $location, $rootScope, $timeout, $state, $modal, profileColorPalette,
   getAttachedName, getParentName, getVirtualTarget) ->
-  name = $stateParams.name
   profileTemplates =
     'FixedProfile': 'profile_fixed.html'
     'PacProfile': 'profile_pac.html'
     'VirtualProfile': 'profile_virtual.html'
     'SwitchProfile': 'profile_switch.html'
     'RuleListProfile': 'profile_rule_list.html'
+
+  loadProfile = ->
+    name = $state.params.name
+    return if not name or not $scope.options
+    profile = $scope.options['+' + name]
+    return if not profile
+    if OmegaPac.Profiles.formatByType[profile.profileType]
+      profile.format = OmegaPac.Profiles.formatByType[profile.profileType]
+      profile.profileType = 'RuleListProfile'
+    $scope.profile = profile
+    type = $scope.profile.profileType
+    templ = profileTemplates[type] ? 'profile_unsupported.html'
+    $scope.profileTemplate = 'partials/' + templ
+    $scope.scriptable = true
+    $scope.watchAndUpdateRevision 'profile'
+
   $scope.spectrumOptions =
     localStorageKey: 'spectrum.profileColor'
     palette: profileColorPalette
@@ -70,7 +85,7 @@ angular.module('omega').controller 'ProfileCtrl', ($scope, $stateParams,
           if profileName == quickSwitch[i]
             quickSwitch.splice i, 1
             break
-        $state.go('ui')
+        $state.go 'default'
 
   # The watcher should be applied on the calling scope.
   # coffeelint: disable=missing_fat_arrows
@@ -91,26 +106,8 @@ angular.module('omega').controller 'ProfileCtrl', ($scope, $stateParams,
     $scope.exportRuleList = exportRuleList
     $scope.exportRuleListOptions = options
 
-  unwatch = $scope.$watch (-> $scope.options?['+' + name]), (profile) ->
-    if not profile
-      if $scope.options
-        unwatch()
-        $location.path '/'
-      else
-        unwatch2 = $scope.$watch 'options', ->
-          if $scope.options
-            unwatch2()
-            if not $scope.options['+' + name]
-              unwatch()
-              $location.path '/'
-      return
-    if OmegaPac.Profiles.formatByType[profile.profileType]
-      profile.format = OmegaPac.Profiles.formatByType[profile.profileType]
-      profile.profileType = 'RuleListProfile'
-    $scope.profile = profile
-    type = $scope.profile.profileType
-    templ = profileTemplates[type] ? 'profile_unsupported.html'
-    $scope.profileTemplate = 'partials/' + templ
-    $scope.scriptable = true
+  $scope.$on '$stateChangeSuccess', ->
+    loadProfile()
 
-    $scope.watchAndUpdateRevision 'profile'
+  $scope.$watch 'options', ->
+    loadProfile() if $scope.options

@@ -1,5 +1,5 @@
-angular.module('omega').controller 'IoCtrl', (
-  $scope, $rootScope, $window, $http, omegaTarget, downloadFile
+angular.module('proxy').controller 'IoCtrl', (
+  $scope, $rootScope, $window, $http, proxyTarget, downloadFile
 ) ->
 
   $scope.useBuiltInSync = true
@@ -24,7 +24,7 @@ angular.module('omega').controller 'IoCtrl', (
       return 'webdav'
     return 'gist'
 
-  omegaTarget.state([
+  proxyTarget.state([
     'web.restoreOnlineUrl',
     'gistId',
     'gistToken',
@@ -69,7 +69,7 @@ angular.module('omega').controller 'IoCtrl', (
       plainOptions = angular.fromJson(angular.toJson($rootScope.options))
       content = JSON.stringify(plainOptions)
       blob = new Blob [content], {type: "text/plain;charset=utf-8"}
-      filename = """ZeroOmegaOptions-#{new Date().toISOString()}.bak"""
+      filename = """网罗代理Options-#{new Date().toISOString()}.bak"""
       downloadFile(blob, filename)
 
   $scope.importSuccess = ->
@@ -102,7 +102,7 @@ angular.module('omega').controller 'IoCtrl', (
     angular.element('#restore-local-file').click()
     return
   $scope.restoreOnline = ->
-    omegaTarget.state('web.restoreOnlineUrl', $scope.restoreOnlineUrl)
+    proxyTarget.state('web.restoreOnlineUrl', $scope.restoreOnlineUrl)
     $scope.restoringOnline = true
     $http(
       method: 'GET'
@@ -119,7 +119,7 @@ angular.module('omega').controller 'IoCtrl', (
 
   $scope.enableOptionsSync = (args = {}) ->
     createNewGist = (gistToken) ->
-      content = """ZeroOmega Gist Sync(#{moment()
+      content = """网罗代理 Gist Sync(#{moment()
         .format('YYYY-MM-DD HH:mm:ss')})"""
       fetch('https://api.github.com/gists', {
         method: 'POST'
@@ -127,7 +127,7 @@ angular.module('omega').controller 'IoCtrl', (
           'Authorization': "token #{gistToken}"
           'Content-Type': 'application/json'
         body: JSON.stringify({
-          description: 'Init ZeroOmega Gist'
+          description: 'Init 网罗代理 Gist'
           public: false
           files: { 'readme.md': { content } }
         })
@@ -174,7 +174,7 @@ angular.module('omega').controller 'IoCtrl', (
       args.syncBackendType = $scope.syncBackendType
       args.useBuiltInSync = $scope.useBuiltInSync
       $scope.enableOptionsSyncing = true
-      omegaTarget.setOptionsSync(true, args).then( ->
+      proxyTarget.setOptionsSync(true, args).then( ->
         $window.location.reload()
       ).catch((e) ->
         $scope.enableOptionsSyncing = false
@@ -191,15 +191,15 @@ angular.module('omega').controller 'IoCtrl', (
 
   $scope.cleanInput = (target) ->
     $scope[target] = ''
-    omegaTarget.state(target, '')
+    proxyTarget.state(target, '')
 
   $scope.checkOptionsSyncChange = ->
     $scope.enableOptionsSyncing = true
-    omegaTarget.checkOptionsSyncChange().then( ->
+    proxyTarget.checkOptionsSyncChange().then( ->
       $window.location.reload()
     )
   $scope.disableOptionsSync = ->
-    omegaTarget.setOptionsSync(false).then ->
+    proxyTarget.setOptionsSync(false).then ->
       $rootScope.applyOptionsConfirm().then ->
         $window.location.reload()
 
@@ -216,7 +216,7 @@ angular.module('omega').controller 'IoCtrl', (
         message: 'Gist Token is required'
       )
       return
-    omegaTarget.resetOptionsSync({
+    proxyTarget.resetOptionsSync({
       gistId: $scope.gistId
       gistToken: $scope.gistToken
       username: $scope.syncUsername

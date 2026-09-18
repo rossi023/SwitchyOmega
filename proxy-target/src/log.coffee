@@ -1,4 +1,4 @@
-### @module omega-target/log ###
+### @module proxy-target/log ###
 Log = require './log'
 
 replacer = (key, value) ->

@@ -3,3 +3,8 @@ bower_components
 package-lock.json
 *-release.zip
 *.swp
+*.ps1
+*.zip
+proxy-pac/proxy_pac.min.js
+proxy-target/proxy_target.min.js
+omega-target-chromium-extension/proxy_target_chromium_extension.min.js

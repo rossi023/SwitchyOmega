@@ -1,5 +1,5 @@
 module.exports = (grunt) ->
-  submodules = ['omega-pac', 'omega-target', 'omega-web', 'omega-target-*']
+  submodules = ['proxy-pac', 'proxy-target', 'omega-web', 'omega-target-*']
   hubConfig =
     all:
       options:

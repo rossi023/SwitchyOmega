@@ -4,7 +4,7 @@ module.exports =
       'index.js': 'index.coffee'
     options:
       transform: ['coffeeify']
-      exclude: ['bluebird', 'jsondiffpatch', 'omega-pac']
+      exclude: ['bluebird', 'jsondiffpatch', 'proxy-pac']
       browserifyOptions:
         extensions: '.coffee'
         builtins: []
@@ -12,7 +12,7 @@ module.exports =
         debug: true
   browser:
     files:
-      'omega_target.min.js': 'index.coffee'
+      'proxy_target.min.js': 'index.coffee'
     options:
       alias: [
         './index.coffee:OmegaTarget'

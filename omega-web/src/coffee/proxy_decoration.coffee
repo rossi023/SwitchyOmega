@@ -5,7 +5,7 @@ orderForType =
   'SwitchProfile': 2000
   'RuleListProfile': 3000
 
-angular.module('omegaDecoration', []).value('profileIcons', {
+angular.module('proxyDecoration', []).value('profileIcons', {
   'DirectProfile': 'glyphicon-transfer'
   'SystemProfile': 'glyphicon-off'
   'AutoDetectProfile': 'glyphicon-file'
@@ -26,7 +26,7 @@ angular.module('omegaDecoration', []).value('profileIcons', {
 ).constant('getVirtualTarget', (profile, options) ->
   if profile?.profileType == 'VirtualProfile'
     options?['+' + profile.defaultProfileName]
-).directive('omegaProfileIcon', (profileIcons, getVirtualTarget) ->
+).directive('proxyProfileIcon', (profileIcons, getVirtualTarget) ->
   restrict: 'A'
   template: '''
     <span ng-style="{color: color || getColor(profile)}"
@@ -35,7 +35,7 @@ angular.module('omegaDecoration', []).value('profileIcons', {
     </span>
     '''
   scope:
-    'profile': '=?omegaProfileIcon'
+    'profile': '=?proxyProfileIcon'
     'icon': '=?icon'
     'color': '=?color'
     'options': '=options'
@@ -53,36 +53,36 @@ angular.module('omegaDecoration', []).value('profileIcons', {
         color = profile.color
         profile = getVirtualTarget(profile, scope.options)
       color
-).directive('omegaProfileInline', ->
+).directive('proxyProfileInline', ->
   restrict: 'A'
   template: '''
-    <span omega-profile-icon="profile" options="options"></span>
+    <span proxy-profile-icon="profile" options="options"></span>
     {{dispName ? dispName(profile) : profile.name}}
     '''
   scope:
-    'profile': '=omegaProfileInline'
+    'profile': '=proxyProfileInline'
     'dispName': '=?dispName'
     'options': '=options'
-).directive('omegaHtml', ($compile) ->
+).directive('proxyHtml', ($compile) ->
   restrict: 'A'
   link: (scope, element, attrs, ngModel) ->
     locals =
       $profile: (profile = 'profile', dispName = 'dispNameFilter',
         options = 'options') ->
         """
-        <span class="profile-inline" omega-profile-inline="#{profile}"
+        <span class="profile-inline" proxy-profile-inline="#{profile}"
           disp-name="#{dispName}" options="#{options}"></span>
         """
-    getHtml = -> scope.$eval(attrs.omegaHtml, locals)
+    getHtml = -> scope.$eval(attrs.proxyHtml, locals)
     scope.$watch getHtml, (html) ->
       element.html(html)
       $compile(element.contents())(scope)
-).directive('omegaProfileSelect', ($timeout, profileIcons) ->
+).directive('proxyProfileSelect', ($timeout, profileIcons) ->
   restrict: 'A'
-  templateUrl: 'partials/omega_profile_select.html'
+  templateUrl: 'partials/proxy_profile_select.html'
   require: '?ngModel'
   scope:
-    'profiles': '&omegaProfileSelect'
+    'profiles': '&proxyProfileSelect'
     'defaultText': '@?defaultText'
     'dispName': '=?dispName'
     'options': '=options'

@@ -1,100 +1,239 @@
 /*!
- * Copyright 2017 The SwitchyOmega Authors. Please see the AUTHORS file
- * for details.
- * Based on Bootstrap v3.3.2 (http://getbootstrap.com)
- * Copyright 2011-2015 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
-*/
+ * 网罗代理 Popup · FoxyProxy 现代风格
+ * 浅色扁平化 · 蓝色 #2975DD 基调
+ */
 
-/* Layout */
-
+/* ---------- 基础 ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 html, body {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 14px;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.45;
+  background: #ffffff;
+  color: #232f45;
+}
+body {
+  min-width: 280px;
+  padding: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #c9d2e4 transparent;
 }
 
-body {
-  min-width: 12em;
-  padding: 5px 0;
+.om-popup {
+  max-width: 340px;
 }
 
 .om-hidden {
   display: none !important;
 }
 
-#js-system{
-  color: #000;
+/* ---------- 顶部模式切换（分段条） ---------- */
+.om-modebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  background: #f4f7fb;
+  border: 1px solid #e2e9f3;
+  border-radius: 10px;
+  margin-bottom: 8px;
 }
 
-/* Menu */
+.om-modebar-label {
+  flex-shrink: 0;
+  padding: 0 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #93a1bc;
+}
 
+.om-modebar .om-nav-item {
+  flex: 1;
+  margin: 0;
+}
+
+.om-modebar .om-nav-item > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 8px;
+  border-radius: 7px;
+  color: #55627a;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.om-modebar .om-nav-item > a:hover {
+  background: #e9eef7;
+  color: #232f45;
+}
+
+.om-modebar .om-nav-item.om-active > a {
+  background: #2975dd;
+  color: #ffffff;
+}
+
+.om-modebar .om-nav-item.om-effective > a {
+  background: rgba(41, 117, 221, 0.14);
+  color: #2975dd;
+}
+
+.om-modebar .om-nav-item.om-active > a .om-profile-name {
+  font-weight: 600;
+}
+
+/* 分段条内隐藏基础图标，仅保留彩色状态点 */
+.om-modebar .om-nav-item > a > .glyphicon:not(.glyphicon-globe) {
+  display: none;
+}
+
+.om-modebar .om-nav-item > a .glyphicon-globe {
+  font-size: 9px;
+}
+
+/* ---------- 菜单列表 ---------- */
 .om-nav {
   list-style: none;
   padding: 0;
-  margin: 5px;
+  margin: 0;
 }
 
-  .om-nav-item {
-    display: block;
-    margin: 2px 0;
-  }
+.om-nav-header {
+  display: flex;
+  align-items: center;
+  padding: 4px 10px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #93a1bc;
+}
 
-    .om-nav-item > a > .glyphicon {
-      margin-right: 8px;
-    }
+.om-nav-item {
+  display: block;
+  margin: 2px 0;
+}
 
-    .om-nav-item > a {
-      display: block;
-      padding: 5px 25px 5px 8px;
-      border-radius: 4px;
-      line-height: 1.5em;
-      font-size: 1em;
-      color: #337ab7;
-      text-decoration: none;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-    .om-nav-item > a:hover {
-      text-decoration: none;
-      background-color: #eee;
-    }
-    .om-nav-item > a:hover {
-      color: #23527c;
-    }
-    .om-nav-item.om-effective > a {
-      background-color: #d9edf7;
-    }
-    .om-nav-item.om-active > a {
-      color: #fff;
-      background-color: #337ab7;
-    }
+.om-nav-item > a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #55627a;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
 
-  .om-divider {
-    height: 1px;
-    overflow: hidden;
-    background-color: #E5E5E5;
-  }
+.om-nav-item > a:hover {
+  background: #f4f7fb;
+  color: #232f45;
+  border-color: #e2e9f3;
+}
 
-  .om-reqinfo {
-    background-color: #fcf8e3;
-  }
+.om-nav-item.om-effective > a {
+  background: rgba(41, 117, 221, 0.07);
+  border-color: rgba(41, 117, 221, 0.18);
+}
 
-  .glyphicon-warning-sign {
-    color: #8a6d3b;
-  }
+.om-nav-item.om-active > a {
+  background: rgba(41, 117, 221, 0.13);
+  border-color: rgba(41, 117, 221, 0.3);
+  color: #1d5fc0;
+}
 
-/* Dropdown */
+.om-nav-item.om-active > a .glyphicon {
+  color: #2975dd;
+}
 
+.om-nav-item > a > .glyphicon {
+  flex-shrink: 0;
+  width: 18px;
+  text-align: center;
+  color: #8694ab;
+  font-size: 13px;
+  top: 0;
+}
+
+.om-nav-item.om-active > a > .glyphicon {
+  color: #2975dd;
+}
+
+/* ---------- 配置文件卡片：名称 + 服务器信息 ---------- */
+.om-profile-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.om-profile-name {
+  font-weight: 500;
+  color: #232f45;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.om-profile-desc {
+  font-size: 11.5px;
+  color: #93a1bc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.om-nav-item.om-active > a .om-profile-name {
+  color: #1d5fc0;
+  font-weight: 600;
+}
+
+/* ---------- 分隔线 ---------- */
+.om-divider {
+  height: 1px;
+  margin: 4px 10px;
+  background: #e9eef7;
+  overflow: hidden;
+}
+
+/* ---------- 请求信息 ---------- */
+.om-reqinfo {
+  border-radius: 8px;
+  background: #fff6e6;
+  border: 1px solid #f3dfae;
+  margin: 4px 0;
+}
+
+.om-reqinfo > a {
+  color: #a96d08 !important;
+}
+
+.glyphicon-warning-sign {
+  color: #cc8400 !important;
+}
+
+/* ---------- 下拉菜单 ---------- */
 .om-dropdown {
   display: none;
   list-style: none;
-  padding: 5px 0;
-  margin: 0 5px !important;
-  border: 1px solid rgba(0,0,0,.15);
-  border-radius: 4px;
-  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  padding: 4px;
+  margin: 2px 0 !important;
+  border: 1px solid #e2e9f3;
+  border-radius: 9px;
+  box-shadow: 0 8px 24px rgba(23, 37, 84, 0.12);
+  background: #ffffff;
 }
 
 .om-open .om-dropdown {
@@ -102,77 +241,89 @@ body {
 }
 
 .om-dropdown .om-nav-item {
-  margin: 0;
+  margin: 1px 0;
 }
 
 .om-dropdown .om-nav-item > a {
-  padding: 3px 20px;
-  line-height: 1.3em;
-  margin: 0;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  border-radius: 6px;
+}
+
+.om-dropdown .om-nav-item.om-active > a {
+  background: rgba(41, 117, 221, 0.13);
+  color: #1d5fc0;
 }
 
 .om-caret {
   display: inline-block;
   width: 0;
   height: 0;
-  margin-left: 2px;
+  margin-left: 3px;
   vertical-align: middle;
-  border-top: 4px solid;
+  border-top: 4px solid #8694ab;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
 }
 
 .om-virtual-profile-icon {
-  border: dotted 1px;
+  border: dotted 1px #8694ab;
   margin: -1px;
 }
 
-/* Default Edit */
-
+/* ---------- 编辑切换 ---------- */
 .om-has-edit {
   padding-right: 32px;
   position: relative;
 }
 
-  .om-edit-toggle {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    color: #337ab7;
-    display: inline-block;
-    margin: -5px 0;
-    text-align: center;
-    padding: 5px 8px 3px;
-    position: absolute;
-    right: 0;
-  }
-
-  .om-edit-toggle:hover {
-    background-color: #e6e6e6;
-    border-color: #adadad;
-  }
-
-/* Keyboard */
-
-.om-keyboard-help {
-  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-  border: solid 1px #000;
-  border-radius: 2px;
+.om-edit-toggle {
+  background: #f4f7fb;
+  border: 1px solid #e2e9f3;
+  color: #8694ab;
   display: inline-block;
-  color: #000;
-  box-shadow: 1px 1px;
+  margin: -5px 0;
+  text-align: center;
+  padding: 4px 7px 3px;
+  position: absolute;
+  right: 8px;
+  border-radius: 6px;
+  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  cursor: pointer;
+}
+
+.om-edit-toggle:hover {
+  background: #e9eef7;
+  border-color: #b9c6dd;
+  color: #232f45;
+}
+
+/* ---------- 键盘快捷键 ---------- */
+.om-keyboard-help {
+  font-family: "Cascadia Code", Menlo, Monaco, Consolas, monospace;
+  border: 1px solid #e2e9f3;
+  border-radius: 4px;
+  display: inline-block;
+  color: #55627a;
+  background: #ffffff;
+  box-shadow: none;
   width: 1em;
   height: 1em;
   line-height: 1em;
   text-align: center;
   margin-top: -3px;
+  font-size: 11px;
 }
 
-/* Glyphicons */
-
+/* ---------- Glyphicons ---------- */
 @font-face {
   font-family: 'Glyphicons Halflings';
   src: url(../../../lib/bootstrap/fonts/glyphicons-halflings-regular.eot);
-  src: url(../../../lib/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'),url(../../../lib/bootstrap/fonts/glyphicons-halflings-regular.woff2) format('woff2'),url(../../../lib/bootstrap/fonts/glyphicons-halflings-regular.woff) format('woff'),url(../../../lib/bootstrap/fonts/glyphicons-halflings-regular.ttf) format('truetype'),url(../../../lib/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
+  src: url(../../../lib/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'),
+       url(../../../lib/bootstrap/fonts/glyphicons-halflings-regular.woff2) format('woff2'),
+       url(../../../lib/bootstrap/fonts/glyphicons-halflings-regular.woff) format('woff'),
+       url(../../../lib/bootstrap/fonts/glyphicons-halflings-regular.ttf) format('truetype'),
+       url(../../../lib/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg');
 }
 
 .glyphicon {
@@ -187,39 +338,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.glyphicon-transfer:before {
-  content: "\e178";
-}
-.glyphicon-off:before {
-  content: "\e017";
-}
-.glyphicon-warning-sign:before {
-    content: "\e107";
-}
-.glyphicon-file:before {
-    content: "\e022"
-}
-.glyphicon-globe:before {
-    content: "\e135"
-}
-.glyphicon-question-sign:before {
-    content: "\e085"
-}
-.glyphicon-list:before {
-    content: "\e056"
-}
-.glyphicon-retweet:before {
-    content: "\e115"
-}
-.glyphicon-plus:before {
-    content: "\2b"
-}
-.glyphicon-filter:before {
-    content: "\e138"
-}
-.glyphicon-wrench:before {
-  content: "\e136"
-}
-.glyphicon-chevron-down:before {
-    content: "\e114";
-}
+.glyphicon-transfer:before { content: "\e178"; }
+.glyphicon-off:before { content: "\e017"; }
+.glyphicon-warning-sign:before { content: "\e107"; }
+.glyphicon-file:before { content: "\e022"; }
+.glyphicon-globe:before { content: "\e135"; }
+.glyphicon-question-sign:before { content: "\e085"; }
+.glyphicon-list:before { content: "\e056"; }
+.glyphicon-retweet:before { content: "\e115"; }
+.glyphicon-plus:before { content: "\2b"; }
+.glyphicon-filter:before { content: "\e138"; }
+.glyphicon-wrench:before { content: "\e136"; }
+.glyphicon-chevron-down:before { content: "\e114"; }

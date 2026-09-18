@@ -1,11 +1,11 @@
 {
-  "name": "omega-target",
+  "name": "proxy-pac",
   "version": "0.0.1",
   "private": true,
   "main": "./index.js",
   "devDependencies": {
-    "chai": "^1.10.0",
-    "coffee-script": "^1.8.0",
+    "chai": "~1.9.1",
+    "coffee-script": "^1.7.1",
     "coffeeify": "^0.7.0",
     "coffeelint": "^1.16.0",
     "grunt": "^0.4.5",
@@ -15,21 +15,20 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-mocha-test": "~0.11.0",
     "load-grunt-config": "^0.13.1",
-    "minifyify": "^4.1.1",
-    "sinon": "^1.12.2",
-    "sinon-chai": "^2.6.0"
+    "lolex": "^1.4.0",
+    "minifyify": "^4.1.1"
   },
   "dependencies": {
-    "bluebird": "^2.3.2",
-    "jsondiffpatch": "^0.1.8",
-    "limiter": "^1.0.5",
-    "omega-pac": "../omega-pac"
+    "ip-address": "^4.0.0",
+    "tldjs": "^1.5.2",
+    "uglify-js": "^2.4.15"
   },
   "browser": {
-    "omega-pac": "./omega_pac_shim.js"
+    "uglify-js": "./uglifyjs-shim.js",
+    "uglify-js-real": "./uglifyjs.js"
   },
   "scripts": {
-    "dev": "npm link omega-pac && npm link",
-    "test": "grunt test"
+    "dev": "npm link",
+    "test": "TZ=Europe/London grunt test"
   }
 }

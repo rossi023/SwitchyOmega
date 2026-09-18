@@ -1,76 +1,61 @@
 doctype html
-html(lang='en' ng-controller='MasterCtrl' ng-csp)
+html(lang='zh-CN' ng-controller='MasterCtrl' ng-csp)
   head
     meta(charset='utf-8')
-    title {{'options_title' | tr}} (Z&#8203er&#8203oOmega)
+    title {{'options_title' | tr}} (网罗代理)
     meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
     link(rel='stylesheet' href='lib/bootstrap/css/bootstrap.min.css')
     link(rel='stylesheet' href='lib/spectrum/spectrum.css')
     link(rel='stylesheet' href='lib/ladda/ladda-themeless.min.css')
     link(rel='stylesheet' href='lib/shepherd.js/shepherd-theme-arrows.css')
-    link(rel='stylesheet' href='css/options.css')
-    link(rel='icon' href='img/icons/omega-action.svg')
+    link(rel='icon' type='image/png' href='img/icons/network-action-32.png')
     style.om-style
       {{customCss}}
-  body(style='display: none;' ng-style='{display: options ? "block" : "none"}')
-    .container-fluid
-      header.col-lg-2.col-sm-3.side-nav
-        h1
-          a(ui-sref='about' title='{{"about_title" | tr}}') Zero Omega
-          sup.om-experimental.text-danger(ng-show='isExperimental')
-            | {{'options_experimental_badge' | tr}}
-        nav.nav.nav-pills.nav-stacked
-          li.nav-header {{'options_navHeader_setting' | tr}}
-          li(ui-sref-active='active'): a(ui-sref='ui')
-            span.glyphicon.glyphicon-wrench
-            = ' '
-            | {{'options_tab_ui' | tr}}
-          li(ui-sref-active='active'): a(ui-sref='general')
-            span.glyphicon.glyphicon-cog
-            = ' '
-            | {{'options_tab_general' | tr}}
-          li(ui-sref-active='active'): a(ui-sref='io')
-            span.glyphicon.glyphicon-floppy-save
-            = ' '
-            | {{'options_tab_importExport' | tr}}
-          li(ui-sref-active='active'): a(ui-sref='theme')
-            span.glyphicon.glyphicon-adjust
-            = ' '
-            | {{'options_theme' | tr}}
-          li.divider
-          li.nav-header {{'options_navHeader_profiles' | tr}}
-          li(ui-sref-active='active'): a(ui-sref='builtin')
-            span.glyphicon.glyphicon-globe
-            = ' '
-            | {{'options_builtin' | tr}}
-          li.nav-profile(ng-repeat='profile in options | profiles:"sorted"' ui-sref-active='active'
-            data-profile-type="{{profile.profileType}}")
-            a(ui-sref='profile({name: profile.name})')
-              span(omega-profile-inline='profile' options='options')
-          li.nav-new-profile
-            a(role='button' ng-click='newProfile()')
-              span.glyphicon.glyphicon-plus
+    link(rel='stylesheet' href='css/options.css')
+  body.app-body.app-body-stacked(style='display: none;' ng-style='{display: options ? "block" : "none"}')
+    .app-main
+      main.angular-animate
+        .options-topbar
+          .topbar-brand
+            img.topbar-logo(src='img/icons/network-action-32.png' alt='')
+            span.topbar-title 网罗代理
+          .topbar-actions
+            a.btn.btn-sm.btn-default(ui-sref='default')
+              span.glyphicon.glyphicon-list
               = ' '
-              span {{'options_newProfile' | tr}}
-          li.divider
-          li.nav-header {{'options_navHeader_actions' | tr}}
-          li
-            a.btn-default.btn.align-initial(role='button' ng-click='applyOptions()'
-                ng-class='{"btn-success": optionsDirty}')
-              span.glyphicon.glyphicon-ok-circle
+              | {{'options_navHeader_profiles' | tr}}
+            a.btn.btn-sm.btn-default(ui-sref='ui')
+              span.glyphicon.glyphicon-wrench
               = ' '
-              | {{'options_apply' | tr}}
-          li(ng-class='{disabled: !optionsDirty}')
-            a.text-danger(role='button' ng-click='revertOptions()')
-              span.glyphicon.glyphicon-remove-circle
+              | {{'options_tab_ui' | tr}}
+            a.btn.btn-sm.btn-default(ui-sref='general')
+              span.glyphicon.glyphicon-cog
               = ' '
-              | {{'options_discard' | tr}}
-      main.col-lg-10.col-sm-9.col-lg-offset-2.col-sm-offset-3.angular-animate(ui-view)
+              | {{'options_tab_general' | tr}}
+            a.btn.btn-sm.btn-default(ui-sref='io')
+              span.glyphicon.glyphicon-floppy-save
+              = ' '
+              | {{'options_tab_importExport' | tr}}
+            span(ng-show='optionsDirty')
+              a.btn.btn-sm.btn-success(ng-click='applyOptions()')
+                span.glyphicon.glyphicon-ok-circle
+                = ' '
+                | {{'options_apply' | tr}}
+              a.btn.btn-sm.btn-link.text-danger(ng-click='revertOptions()')
+                span.glyphicon.glyphicon-remove-circle
+                = ' '
+                | {{'options_discard' | tr}}
+        section.options-section(ng-show="$state.includes('ui')")
+          include partials/ui
+        section.options-section(ng-show="$state.includes('general')")
+          include partials/general
+        section.options-section(ng-show="$state.includes('io')" ng-controller='IoCtrl')
+          include partials/io
+        section.options-section(ng-show="$state.includes('default')")
+          include partials/profile_list
+        section.options-section(ng-show="$state.includes('profile')" ng-controller='ProfileCtrl')
+          include partials/profile
 
-    //-
-      Note: Alert type classes cannot be changed in angular-bootstrap.
-      This is already fixed but they don't have time for a new release:
-      https://github.com/angular-ui/bootstrap/issues/2641
     .alert-top-wrapper(ng-show='alertShown')
       div(alert type='workaround' close='hideAlert()'
           class='{{alertClassForType(alert.type)}}')
@@ -80,7 +65,7 @@ html(lang='en' ng-controller='MasterCtrl' ng-csp)
     script(src='lib/zero-dependencies/moment/moment-with-locales.js')
     script(src='lib/zero-dependencies/idb-keyval/idb-keyval.js')
     script(src='lib/zero-dependencies/jszip/jszip.min.js')
-    script(src='js/omega_debug.js')
+    script(src='js/network_debug.js')
     script(src='js/log_error.js')
     script(src='lib/script.js/script.min.js')
     script(src='js/options.js')

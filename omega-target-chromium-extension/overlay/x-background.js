@@ -11,21 +11,21 @@ import "./js/log_error.js"
 //import "./log.js"
 //import "./lib/FileSaver/FileSaver.min.js"
 import "./js/omega_debug.js"
-import "./js/omega_pac.min.js"
-import "./js/omega_target.min.js"
-import "./js/omega_target_chromium_extension.min.js"
+import "./js/proxy_pac.min.js"
+import "./js/proxy_target.min.js"
+import "./js/proxy_target_chromium_extension.min.js"
 import "./img/icons/draw_omega.js"
 import "./js/background.js" // zeroBackground
 
 /**
- * author: suziwen1@gmail.com
+ * author: 网罗代理
  **/
 
 const isFirefox = !!globalThis.localStorage
 
 globalThis.POPUPHTMLURL = './popup-iframe.html'
 //if android, (eg. edge canary for android), use default popup/index.html
-//https://github.com/zero-peak/ZeroOmega/issues/93
+//https://github.com/zero-peak/缃戠綏浠ｇ悊/issues/93
 if (globalThis.navigator && /Android/i.test(globalThis.navigator.userAgent)){
   globalThis.POPUPHTMLURL = './popup/index.html'
 }
@@ -39,11 +39,11 @@ function detectPrivateMode(cb) {
   off = cb.bind(null, false);
   if (isFirefox) {
     // in private mode, localStorage will be erased when browser restart
-    tempMode = localStorage.getItem('zeroOmega.isPrivateMode')
+    tempMode = localStorage.getItem('网罗代理.isPrivateMode')
     if (tempMode) {
       tempMode == 'true' ? on() : off()
     } else {
-      db = indexedDB.open("zeroOmega-test"), db.onerror = on, db.onsuccess = off
+      db = indexedDB.open("网罗代理-test"), db.onerror = on, db.onsuccess = off
     }
   } else {
     off()
@@ -52,7 +52,7 @@ function detectPrivateMode(cb) {
 
 detectPrivateMode(function (isPrivateMode) {
   if (isFirefox) {
-    localStorage.setItem('zeroOmega.isPrivateMode', isPrivateMode ? 'true' : 'false')
+    localStorage.setItem('网罗代理.isPrivateMode', isPrivateMode ? 'true' : 'false')
   }
 
   if (isPrivateMode && isFirefox) {

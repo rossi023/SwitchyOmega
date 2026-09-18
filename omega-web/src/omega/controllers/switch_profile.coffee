@@ -1,5 +1,5 @@
-angular.module('omega').controller 'SwitchProfileCtrl', ($scope, $rootScope,
-  $location, $timeout, $q, $modal, profileIcons, getAttachedName, omegaTarget,
+angular.module('proxy').controller 'SwitchProfileCtrl', ($scope, $rootScope,
+  $location, $timeout, $q, $modal, profileIcons, getAttachedName, proxyTarget,
   trFilter, downloadFile) ->
   # == Rule list ==
   $scope.ruleListFormats = OmegaPac.Profiles.ruleListFormats
@@ -12,7 +12,7 @@ angular.module('omega').controller 'SwitchProfileCtrl', ($scope, $rootScope,
 
     eol = '\r\n'
     info = '\n'
-    info += '; Require: ZeroOmega >= 2.3.2' + eol
+    info += '; Require: 网罗代理 >= 2.3.2' + eol
     info += "; Date: #{new Date().toLocaleDateString()}" + eol
     info += "; Usage: #{trFilter('ruleList_usageUrl')}" + eol
 
@@ -340,6 +340,9 @@ angular.module('omega').controller 'SwitchProfileCtrl', ($scope, $rootScope,
       name: $scope.attachedName
       defaultProfileName: $scope.profile.defaultProfileName
       profileType: 'RuleListProfile'
+      format: $rootScope.defaultRuleListFormat
+      ruleListUrl: $rootScope.defaultRuleListUrl
+      matchProfileName: 'direct'
       color: $scope.profile.color
     )
     OmegaPac.Profiles.updateRevision($scope.attached)
@@ -364,7 +367,7 @@ angular.module('omega').controller 'SwitchProfileCtrl', ($scope, $rootScope,
   stateEditorKey = 'web._profileEditor.' + $scope.profile.name
   $scope.loadRules = false
   $scope.editSource = false
-  parseOmegaRules = (code, {detect, requireResult} = {}) ->
+  parseProxyRules = (code, {detect, requireResult} = {}) ->
     setError = (error) ->
       if error.reason
         args = error.args ? [
@@ -391,7 +394,7 @@ angular.module('omega').controller 'SwitchProfileCtrl', ($scope, $rootScope,
       return setError(err)
   parseSource = ->
     return true unless $scope.source
-    {rules, error} = parseOmegaRules($scope.source.code.trim(),
+    {rules, error} = parseProxyRules($scope.source.code.trim(),
       requireResult: true)
     if error
       $scope.source.error = error
@@ -421,17 +424,17 @@ angular.module('omega').controller 'SwitchProfileCtrl', ($scope, $rootScope,
       return unless parseSource()
       $scope.source = null
       $scope.loadRules = true
-    omegaTarget.state(stateEditorKey, {editSource: $scope.editSource})
+    proxyTarget.state(stateEditorKey, {editSource: $scope.editSource})
 
   $rootScope.$on '$stateChangeStart', (event, _, __, fromState) ->
     if $scope.editSource and $scope.source.touched
       sourceValid = parseSource()
       event.preventDefault() unless sourceValid
 
-  $scope.$on 'omegaApplyOptions', (event) ->
+  $scope.$on 'proxyApplyOptions', (event) ->
     if $scope.attached?.ruleList and not $scope.attached.sourceUrl
       $scope.attachedRuleListError = undefined
-      {error} = parseOmegaRules($scope.attached.ruleList.trim(), detect: true)
+      {error} = parseProxyRules($scope.attached.ruleList.trim(), detect: true)
       if error
         if error.reason != 'resultNotEnabled' and error.reason != 'notSwitchy'
           $scope.attachedRuleListError = error
@@ -447,15 +450,15 @@ angular.module('omega').controller 'SwitchProfileCtrl', ($scope, $rootScope,
         $timeout ->
           $rootScope.applyOptions()
 
-  omegaTarget.state(stateEditorKey).then (opts) ->
+  proxyTarget.state(stateEditorKey).then (opts) ->
     if opts?.editSource
       $scope.toggleSource()
     else
       $scope.loadRules = true
-      getState = omegaTarget.state(['web.switchGuide', 'firstRun'])
+      getState = proxyTarget.state(['web.switchGuide', 'firstRun'])
       $q.all([rulesReady, getState]).then ([_, [switchGuide, firstRun]]) ->
         return if firstRun or switchGuide == 'shown'
-        omegaTarget.state('web.switchGuide', 'shown')
+        proxyTarget.state('web.switchGuide', 'shown')
         return if $scope.profile.rules.length == 0
         $script 'js/switch_profile_guide.js'
 

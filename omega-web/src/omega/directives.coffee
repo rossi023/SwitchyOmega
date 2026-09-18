@@ -1,4 +1,4 @@
-angular.module('omega').directive 'inputGroupClear', ($timeout) ->
+angular.module('proxy').directive 'inputGroupClear', ($timeout) ->
   restrict: 'A'
   templateUrl: 'partials/input_group_clear.html'
   scope:
@@ -19,11 +19,11 @@ angular.module('omega').directive 'inputGroupClear', ($timeout) ->
         scope.oldModel = ''
     scope.toggleClear = ->
       [scope.model, scope.oldModel] = [scope.oldModel, scope.model]
-angular.module('omega').directive 'omegaUpload', ->
+angular.module('proxy').directive 'proxyUpload', ->
   restrict: 'A'
   scope:
-    success: '&omegaUpload'
-    error: '&omegaError'
+    success: '&proxyUpload'
+    error: '&proxyError'
   link: (scope, element, attrs) ->
     input = element[0]
     element.on 'change', ->
@@ -37,7 +37,7 @@ angular.module('omega').directive 'omegaUpload', ->
             scope.error({'$error': e.target.error})
         reader.readAsText(input.files[0])
         input.value = ''
-angular.module('omega').directive 'omegaIp2str', ->
+angular.module('proxy').directive 'proxyIp2str', ->
   restrict: 'A'
   priority: 2 # Run post-link after input directive (0) and ngModel (1).
   require: 'ngModel'

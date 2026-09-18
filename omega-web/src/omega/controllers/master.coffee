@@ -1,8 +1,10 @@
-angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
-  $q, $modal, $state, profileColors, profileIcons, omegaTarget,
+angular.module('proxy').controller 'MasterCtrl', ($scope, $rootScope, $window,
+  $q, $modal, $state, profileColors, profileIcons, proxyTarget,
   $timeout, $location, $filter, getAttachedName, isProfileNameReserved,
   isProfileNameHidden, dispNameFilter, downloadFile, themes
 ) ->
+
+  $scope.$state = $state
 
   if browser?.proxy?.register? or browser?.proxy?.registerProxyScript?
     $scope.isExperimental = true
@@ -12,14 +14,14 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
 
   $rootScope.options = null
 
-  omegaTarget.state('customCss').then (customCss = '') ->
+  proxyTarget.state('customCss').then (customCss = '') ->
     $scope.customCss = customCss
 
-  omegaTarget.addOptionsChangeCallback (newOptions) ->
+  proxyTarget.addOptionsChangeCallback (newOptions) ->
     $rootScope.options = angular.copy(newOptions)
     $rootScope.optionsOld = angular.copy(newOptions)
 
-    omegaTarget.state('syncOptions').then (syncOptions) ->
+    proxyTarget.state('syncOptions').then (syncOptions) ->
       $scope.syncOptions = syncOptions
 
     $timeout ->
@@ -36,7 +38,7 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
       if name
         $q.when(name)
       else
-        omegaTarget.state('currentProfileName')
+        proxyTarget.state('currentProfileName')
           
     getProfileName.then (profileName) ->
       return unless profileName
@@ -90,17 +92,17 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
   $rootScope.applyOptions = ->
     return unless $rootScope.optionsDirty
     return unless checkFormValid()
-    return if $rootScope.$broadcast('omegaApplyOptions').defaultPrevented
+    return if $rootScope.$broadcast('proxyApplyOptions').defaultPrevented
     plainOptions = angular.fromJson(angular.toJson($rootScope.options))
     patch = diff.diff($rootScope.optionsOld, plainOptions)
-    omegaTarget.optionsPatch(patch).then ->
+    proxyTarget.optionsPatch(patch).then ->
       $rootScope.showAlert(
         type: 'success'
         i18n: 'options_saveSuccess'
       )
 
   $rootScope.resetOptions = (options) ->
-    omegaTarget.resetOptions(options).then(->
+    proxyTarget.resetOptions(options).then(->
       $rootScope.showAlert(
         type: 'success'
         i18n: 'options_resetSuccess'
@@ -150,7 +152,37 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
       profile.color ?= profileColors[choice]
       OmegaPac.Profiles.updateRevision(profile)
       $rootScope.options[OmegaPac.Profiles.nameAsKey(profile)] = profile
-      $state.go('profile', {name: profile.name})
+      if profile.profileType == 'SwitchProfile'
+        $rootScope.attachDefaultRuleList(profile)
+      if profile.profileType == 'FixedProfile'
+        switchName = profile.name + '_rules'
+        switchProfile = OmegaPac.Profiles.create(
+          name: switchName
+          profileType: 'SwitchProfile'
+          color: profile.color
+          defaultProfileName: 'direct'
+          rules: []
+        )
+        OmegaPac.Profiles.updateRevision(switchProfile)
+        $rootScope.options[OmegaPac.Profiles.nameAsKey(switchProfile)] = switchProfile
+        attachedName = getAttachedName(switchName)
+        attachedKey = OmegaPac.Profiles.nameAsKey(attachedName)
+        attached = OmegaPac.Profiles.create(
+          name: attachedName
+          profileType: 'RuleListProfile'
+          format: $rootScope.defaultRuleListFormat
+          ruleListUrl: $rootScope.defaultRuleListUrl
+          matchProfileName: profile.name
+          defaultProfileName: 'direct'
+          color: profile.color
+        )
+        OmegaPac.Profiles.updateRevision(attached)
+        $rootScope.options[attachedKey] = attached
+        switchProfile.defaultProfileName = attachedName
+        OmegaPac.Profiles.updateRevision(switchProfile)
+        $state.go('profile', {name: switchName})
+      else
+        $state.go('profile', {name: profile.name})
 
   $rootScope.replaceProfile = (fromName, toName) ->
     $rootScope.applyOptionsConfirm().then ->
@@ -163,7 +195,7 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
       scope.options = $scope.options
       scope.profileSelect = (model) ->
         """
-        <div omega-profile-select="options | profiles:profile"
+        <div proxy-profile-select="options | profiles:profile"
           ng-model="#{model}" options="options"
           disp-name="dispNameFilter" style="display: inline-block;">
         </div>
@@ -172,7 +204,7 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
         templateUrl: 'partials/replace_profile.html'
         scope: scope
       ).result.then ({fromName, toName}) ->
-        omegaTarget.replaceRef(fromName, toName).then(->
+        proxyTarget.replaceRef(fromName, toName).then(->
           $rootScope.showAlert(
             type: 'success'
             i18n: 'options_replaceProfileSuccess'
@@ -203,7 +235,7 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
         scope: scope
       ).result.then (toName) ->
         if toName != fromName
-          rename = omegaTarget.renameProfile(fromName, toName)
+          rename = proxyTarget.renameProfile(fromName, toName)
           attachedName = getAttachedName(fromName)
           if $rootScope.profileByName(attachedName)
             toAttachedName = getAttachedName(toName)
@@ -218,7 +250,7 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
                 delete $rootScope.options[toAttachedKey]
                 $rootScope.applyOptions()
             rename = rename.then ->
-              omegaTarget.renameProfile(attachedName, toAttachedName)
+              proxyTarget.renameProfile(attachedName, toAttachedName)
             if defaultProfileName
               rename = rename.then ->
                 profile = $rootScope.profileByName(toName)
@@ -243,7 +275,7 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
           if not profile.builtin
             $scope.updatingProfile[profile.name] = true
         
-      omegaTarget.updateProfile(name, 'bypass_cache').then((results) ->
+      proxyTarget.updateProfile(name, 'bypass_cache').then((results) ->
         success = 0
         error = 0
         for own profileName, result of results
@@ -292,7 +324,7 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
       event.preventDefault()
 
   $rootScope.$on '$stateChangeSuccess', ->
-    omegaTarget.lastUrl($location.url())
+    proxyTarget.lastUrl($location.url())
 
   $window.onbeforeunload = ->
     if $rootScope.optionsDirty
@@ -306,6 +338,71 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
 
   $scope.profileIcons = profileIcons
   $scope.dispNameFilter = dispNameFilter
+
+  proxyTarget.state('currentProfileName').then (name) ->
+    $scope.currentProfileName = name
+
+  $scope.profileSummary = (profile) ->
+    return '' unless profile and profile.profileType
+    switch profile.profileType
+      when 'FixedProfile'
+        proxy = profile.proxyForHttp or profile.fallbackProxy
+        if proxy and proxy.host
+          "#{proxy.scheme or profile.fallbackProxy?.scheme or 'http'}://#{proxy.host}:#{proxy.port}"
+        else
+          tr('options_profileTypeFixedProfile')
+      when 'PacProfile'
+        profile.pacUrl or tr('options_profileTypePacProfile')
+      when 'SwitchProfile'
+        tr('options_profileTypeSwitchProfile')
+      when 'RuleListProfile'
+        profile.ruleListUrl or tr('options_profileTypeRuleListProfile')
+      when 'VirtualProfile'
+        profile.defaultProfileName or tr('options_profileTypeVirtualProfile')
+      else
+        ''
+
+  $rootScope.defaultRuleListUrl =
+    'https://raw.githubusercontent.com/Loukky/gfwlist-by-loukky/master/gfwlist.txt'
+  $rootScope.defaultRuleListFormat = 'AutoProxy'
+
+  $scope.attachedRuleList = (profile) ->
+    return null unless profile
+    return profile if profile.profileType == 'RuleListProfile'
+    return null unless profile.profileType == 'SwitchProfile' and profile.name
+    $rootScope.profileByName(getAttachedName(profile.name))
+
+  $scope.ruleListSource = (profile) ->
+    ruleList = $scope.attachedRuleList(profile)
+    return tr('options_profileRuleListNone') unless ruleList
+    return ruleList.ruleListUrl if ruleList.ruleListUrl
+    return tr('options_profileRuleListLocal') if ruleList.ruleList
+    tr('options_profileRuleListNone')
+
+  $rootScope.attachDefaultRuleList = (profile) ->
+    return null unless profile and profile.profileType == 'SwitchProfile' and profile.name
+    attachedName = getAttachedName(profile.name)
+    attachedKey = OmegaPac.Profiles.nameAsKey(attachedName)
+    attached = $rootScope.options[attachedKey]
+    unless attached
+      attached = OmegaPac.Profiles.create(
+        name: attachedName
+        profileType: 'RuleListProfile'
+        format: $rootScope.defaultRuleListFormat
+        ruleListUrl: $rootScope.defaultRuleListUrl
+        matchProfileName: 'direct'
+        defaultProfileName: profile.defaultProfileName or 'direct'
+        color: profile.color
+      )
+      OmegaPac.Profiles.updateRevision(attached)
+      $rootScope.options[attachedKey] = attached
+    profile.defaultProfileName = attachedName
+    OmegaPac.Profiles.updateRevision(profile)
+    attached
+
+  $scope.addDefaultRuleList = (profile) ->
+    $rootScope.attachDefaultRuleList(profile)
+    $state.go('profile', name: profile.name)
 
   for own type of OmegaPac.Profiles.formatByType
     $scope.profileIcons[type] = $scope.profileIcons['RuleListProfile']
@@ -369,15 +466,15 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
     themeItem = $scope.selectedItem or {data: {}}
     changeTheme(themeItem.data.key)
   $scope.changeTheme = changeTheme
-  $scope.openShortcutConfig = omegaTarget.openShortcutConfig.bind(omegaTarget)
+  $scope.openShortcutConfig = proxyTarget.openShortcutConfig.bind(proxyTarget)
 
   showFirstRunOnce = true
   showFirstRun = ->
     return unless showFirstRunOnce
     showFirstRunOnce = false
-    omegaTarget.state('firstRun').then (firstRun) ->
+    proxyTarget.state('firstRun').then (firstRun) ->
       return unless firstRun
-      omegaTarget.state('firstRun', '')
+      proxyTarget.state('firstRun', '')
 
       profileName = null
       OmegaPac.Profiles.each $rootScope.options, (key, profile) ->
@@ -401,5 +498,5 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
             $state.go('profile', {name: profileName}).then ->
               $script 'js/options_guide.js'
 
-  omegaTarget.refresh()
+  proxyTarget.refresh()
 

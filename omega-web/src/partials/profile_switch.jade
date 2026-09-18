@@ -81,7 +81,7 @@ div(ng-controller='SwitchProfileCtrl')
                 input.form-control(type='number' max='99' min='1' ng-model='rule.condition.maxValue' required)
               span(ng-switch-when='IpCondition')
                 input.form-control(type='text' ng-model='rule.condition' required
-                  omega-ip2str placeholder='127.0.0.1/8'
+                  proxy-ip2str placeholder='127.0.0.1/8'
                   ui-validate='{pattern: "validateIpCondition(rule.condition, $value)"}')
               span.host-levels-details(ng-switch-when='TimeCondition')
                 input.form-control(type='number' min='0' max='23' ng-model='rule.condition.startHour' required)
@@ -97,7 +97,7 @@ div(ng-controller='SwitchProfileCtrl')
               input.form-control(ng-model='rule.condition.pattern' ng-switch-default required
                 ui-validate='{pattern: "validateCondition(rule.condition, $value)"}')
             td.switch-rule-row-target
-              div(omega-profile-select='options | profiles:profile' ng-model='rule.profileName'
+              div(proxy-profile-select='options | profiles:profile' ng-model='rule.profileName'
                 disp-name='dispNameFilter' options='options'
                 ng-class='{disabled: rule.condition.conditionType == "NeverCondition"}')
             td
@@ -133,7 +133,7 @@ div(ng-controller='SwitchProfileCtrl')
               span(ng-show='!attachedOptions.enabled')
                 | {{'options_switchAttachedProfileInConditionDisabled' | tr}}
             td
-              div(omega-profile-select='options | profiles:profile' ng-model='attached.matchProfileName'
+              div(proxy-profile-select='options | profiles:profile' ng-model='attached.matchProfileName'
                 disp-name='dispNameFilter' options='options' ng-class='{disabled: !attachedOptions.enabled}')
             td
               button.btn.btn-danger.btn-sm(title="{{'options_deleteAttached' | tr}}" ng-click='removeAttached()')
@@ -144,7 +144,7 @@ div(ng-controller='SwitchProfileCtrl')
             td
             td(colspan='2') {{'options_switchDefaultProfile' | tr}}
             td
-              div(omega-profile-select='options | profiles:profile' ng-model='attachedOptions.defaultProfileName'
+              div(proxy-profile-select='options | profiles:profile' ng-model='attachedOptions.defaultProfileName'
                 disp-name='dispNameFilter' options='options')
             td
               button.btn.btn-info.btn-sm(title="{{'options_resetRules_help' | tr}}" ng-click='resetRules()')
@@ -171,6 +171,10 @@ div(ng-controller='SwitchProfileCtrl')
         .width-limit.inline-form-control(input-group-clear type='url' model='attached.sourceUrl'
           style='vertical-align: middle')
         p.help-block {{'options_ruleListUrlHelp' | tr}}
+        p.help-block.text-info
+          span.glyphicon.glyphicon-info-sign
+          = ' '
+          | 默认规则: https://raw.githubusercontent.com/Loukky/gfwlist-by-loukky/master/gfwlist.txt
       details.form-group(ng-open="::attached.headers && attached.headers.length > 0")
         summary(style='display: list-item') {{'options_group_ruleListHeaders' | tr}}
         .width-limit

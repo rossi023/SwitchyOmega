@@ -1,14 +1,14 @@
-angular.module('omega').controller 'AboutCtrl', (
-  $scope, $rootScope,$modal, omegaDebug
+angular.module('proxy').controller 'AboutCtrl', (
+  $scope, $rootScope,$modal, proxyDebug
 ) ->
   $scope.downloadLog = ->
     $scope.logDownloading = true
-    Promise.resolve(omegaDebug.downloadLog()).then( ->
+    Promise.resolve(proxyDebug.downloadLog()).then( ->
       $scope.logDownloading = false
     )
   $scope.reportIssue = ->
     $scope.issueReporting = true
-    omegaDebug.reportIssue().then( ->
+    proxyDebug.reportIssue().then( ->
       $scope.issueReporting = false
     )
 
@@ -17,11 +17,11 @@ angular.module('omega').controller 'AboutCtrl', (
       .open(templateUrl: 'partials/reset_options_confirm.html').result
       .then ->
         $scope.optionsReseting = true
-        omegaDebug.resetOptions().then( ->
+        proxyDebug.resetOptions().then( ->
           $scope.optionsReseting = false
         )
 
   try
-    $scope.version = omegaDebug.getProjectVersion()
+    $scope.version = proxyDebug.getProjectVersion()
   catch _
     $scope.version = '?.?.?'

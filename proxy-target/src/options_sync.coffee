@@ -1,13 +1,13 @@
-### @module omega-target/options_sync ###
+### @module proxy-target/options_sync ###
 Promise = require 'bluebird'
 Storage = require './storage'
 Log = require './log'
-{Revision, Profiles} = require 'omega-pac'
+{Revision, Profiles} = require 'proxy-pac'
 jsondiffpatch = require 'jsondiffpatch'
 TokenBucket = require('limiter').TokenBucket
 
 
-BUILTINSYNCKEY = 'zeroOmegaSync'
+BUILTINSYNCKEY = '网罗代理Sync'
 
 class OptionsSync
   @TokenBucket: TokenBucket

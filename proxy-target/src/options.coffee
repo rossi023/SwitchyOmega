@@ -1,8 +1,8 @@
-### @module omega-target/options ###
+### @module proxy-target/options ###
 Promise = require 'bluebird'
 Log = require './log'
 Storage = require './storage'
-OmegaPac = require 'omega-pac'
+OmegaPac = require 'proxy-pac'
 jsondiffpatch = require 'jsondiffpatch'
 
 

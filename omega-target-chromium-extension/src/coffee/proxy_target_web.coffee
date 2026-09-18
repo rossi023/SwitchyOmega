@@ -16,7 +16,7 @@ getActiveTab = (activeTabId, cb) ->
   else
     queryTab(cb)
 
-angular.module('omegaTarget', []).factory 'omegaTarget', ($q) ->
+angular.module('proxyTarget', []).factory 'proxyTarget', ($q) ->
   decodeError = (obj) ->
     if obj._error == 'error'
       err = new Error(obj.message)
@@ -92,9 +92,9 @@ angular.module('omegaTarget', []).factory 'omegaTarget', ($q) ->
 
   optionsChangeCallback = []
   requestInfoCallback = null
-  prefix = 'omega.local.'
+  prefix = 'proxy.local.'
   urlParser = document.createElement('a')
-  omegaTarget =
+  proxyTarget =
     options: null
     state: (name, value) ->
       d = $q.defer()
@@ -125,24 +125,24 @@ angular.module('omegaTarget', []).factory 'omegaTarget', ($q) ->
       optionsChangeCallback.push(callback)
     refresh: (args) ->
       return callBackground('getAll').then (opt) ->
-        omegaTarget.options = opt
+        proxyTarget.options = opt
         for callback in optionsChangeCallback
-          callback(omegaTarget.options)
+          callback(proxyTarget.options)
         return args
     renameProfile: (fromName, toName) ->
-      callBackground('renameProfile', fromName, toName).then omegaTarget.refresh
+      callBackground('renameProfile', fromName, toName).then proxyTarget.refresh
     replaceRef: (fromName, toName) ->
-      callBackground('replaceRef', fromName, toName).then omegaTarget.refresh
+      callBackground('replaceRef', fromName, toName).then proxyTarget.refresh
     optionsPatch: (patch) ->
-      callBackground('patch', patch).then omegaTarget.refresh
+      callBackground('patch', patch).then proxyTarget.refresh
     resetOptions: (opt) ->
-      callBackground('reset', opt).then omegaTarget.refresh
+      callBackground('reset', opt).then proxyTarget.refresh
     updateProfile: (name, opt_bypass_cache) ->
       callBackground('updateProfile', name, opt_bypass_cache).then((results) ->
         for own key, value of results
           results[key] = decodeError(value)
         results
-      ).then omegaTarget.refresh
+      ).then proxyTarget.refresh
     getMessage: chrome.i18n.getMessage.bind(chrome.i18n)
     openOptions: (hash) ->
       d = $q['defer']()
@@ -172,7 +172,7 @@ angular.module('omegaTarget', []).factory 'omegaTarget', ($q) ->
     addCondition: (condition, profileName) ->
       callBackground('addCondition', condition, profileName)
     addProfile: (profile) ->
-      callBackground('addProfile', profile).then omegaTarget.refresh
+      callBackground('addProfile', profile).then proxyTarget.refresh
     setDefaultProfile: (profileName, defaultProfileName) ->
       callBackground('setDefaultProfile', profileName, defaultProfileName)
     getActivePageInfo: (activeTabId) ->
@@ -212,4 +212,4 @@ angular.module('omegaTarget', []).factory 'omegaTarget', ($q) ->
     setRequestInfoCallback: (callback) ->
       requestInfoCallback = callback
 
-  return omegaTarget
+  return proxyTarget

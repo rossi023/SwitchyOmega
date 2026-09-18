@@ -1,4 +1,4 @@
-angular.module('omega').filter 'profiles', (builtinProfiles, profileOrder,
+angular.module('proxy').filter 'profiles', (builtinProfiles, profileOrder,
   isProfileNameHidden, isProfileNameReserved) ->
 
   charCodePlus = '+'.charCodeAt(0)
@@ -21,9 +21,9 @@ angular.module('omega').filter 'profiles', (builtinProfiles, profileOrder,
       result.sort profileOrder
     result
 
-angular.module('omega').filter 'tr', (omegaTarget) -> omegaTarget.getMessage
-angular.module('omega').filter 'dispName', (omegaTarget) ->
+angular.module('proxy').filter 'tr', (proxyTarget) -> proxyTarget.getMessage
+angular.module('proxy').filter 'dispName', (proxyTarget) ->
   (name) ->
     if typeof name == 'object'
       name = name.name
-    omegaTarget.getMessage('profile_' + name) || name
+    proxyTarget.getMessage('profile_' + name) || name

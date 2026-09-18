@@ -1,4 +1,4 @@
-OmegaTarget = require('omega-target')
+OmegaTarget = require('proxy-target')
 Promise = OmegaTarget.Promise
 ProxyImpl = require('./proxy_impl')
 
@@ -6,7 +6,7 @@ class ScriptProxyImpl extends ProxyImpl
   @isSupported: ->
     return browser?.proxy?.register? or browser?.proxy?.registerProxyScript?
   features: ['socks5Auth']
-  _proxyScriptUrl: 'js/omega_webext_proxy_script.min.js'
+  _proxyScriptUrl: 'js/proxy_webext_proxy_script.min.js'
   _proxyScriptDisabled: false
   _proxyScriptInitialized: false
   _proxyScriptState: {}
@@ -29,7 +29,7 @@ class ScriptProxyImpl extends ProxyImpl
       else
         # Some older browers may not ship with .unregister API.
         # In that case, let's just set an invalid script to unregister it.
-        browser.proxy.registerProxyScript('js/omega_invalid_proxy_script.js')
+        browser.proxy.registerProxyScript('js/proxy_invalid_proxy_script.js')
       @_proxyScriptDisabled = true
     else
       @_proxyScriptState = state

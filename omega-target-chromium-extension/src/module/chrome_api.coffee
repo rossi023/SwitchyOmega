@@ -1,4 +1,4 @@
-OmegaTarget = require('omega-target')
+OmegaTarget = require('proxy-target')
 Promise = OmegaTarget.Promise
 
 exports.chromeApiPromisify = (target, method) ->

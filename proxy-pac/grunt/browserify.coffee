@@ -12,7 +12,7 @@ module.exports =
         debug: true
   browser:
     files:
-      'omega_pac.min.js': './index.coffee'
+      'proxy_pac.min.js': './index.coffee'
     options:
       alias: [
         './index.coffee:OmegaPac'

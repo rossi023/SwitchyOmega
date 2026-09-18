@@ -6,7 +6,7 @@ section.settings-group
     label
       input#revert-proxy-changes(type='checkbox' ng-model='options["-monitorWebRequests"]')
       span {{'options_monitorWebRequests' | tr}}
-    p.help-block(omega-html="'options_monitorWebRequestsHelp' | tr")
+    p.help-block(proxy-html="'options_monitorWebRequestsHelp' | tr")
   p
     a.btn.btn-default(href="./popup/network/index.html" role="button" target="_blank")
       span.glyphicon.glyphicon-dashboard
@@ -30,10 +30,10 @@ section.settings-group.width-limit
   p.help-text.text-info
     span.glyphicon.glyphicon-info-sign
     = ' '
-    span(omega-html="'options_conflicts_higherPriority' | tr:[$profile('systemProfile')]")
+    span(proxy-html="'options_conflicts_higherPriority' | tr:[$profile('systemProfile')]")
 
   div.checkbox
     label
       input#revert-proxy-changes(type='checkbox' ng-model='options["-showExternalProfile"]')
       span {{'options_showExternalProfile' | tr}}
-  p.help-block(omega-html="'options_showExternalProfileHelp' | tr:[$profile('systemProfile'), $profile('externalProfile')]")
+  p.help-block(proxy-html="'options_showExternalProfileHelp' | tr:[$profile('systemProfile'), $profile('externalProfile')]")

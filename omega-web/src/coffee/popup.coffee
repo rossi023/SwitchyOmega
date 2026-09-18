@@ -1,12 +1,12 @@
-module = angular.module('omegaPopup', ['omegaTarget', 'omegaDecoration',
+module = angular.module('networkPopup', ['proxyTarget', 'proxyDecoration',
   'ui.bootstrap', 'ui.validate'])
 
-module.filter 'tr', (omegaTarget) -> omegaTarget.getMessage
-module.filter 'dispName', (omegaTarget) ->
+module.filter 'tr', (proxyTarget) -> proxyTarget.getMessage
+module.filter 'dispName', (proxyTarget) ->
   (name) ->
     if typeof name == 'object'
       name = name.name
-    omegaTarget.getMessage('profile_' + name) || name
+    proxyTarget.getMessage('profile_' + name) || name
 
 moveUp = (activeIndex, items) ->
   i = activeIndex - 1
@@ -83,23 +83,23 @@ jQuery(document).on 'keydown', (e) ->
 
   return false
 
-module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
+module.controller 'PopupCtrl', ($scope, $window, $q, proxyTarget,
   profileIcons, profileOrder, dispNameFilter, getVirtualTarget
 ) ->
-  omegaTarget.state('customCss').then (customCss = '') ->
+  proxyTarget.state('customCss').then (customCss = '') ->
     $scope.customCss = customCss
 
   $scope.closePopup = ->
     $window.top.close()
 
   $scope.openManage = ->
-    omegaTarget.openManage()
+    proxyTarget.openManage()
     $window.top.close()
 
   refreshOnProfileChange = false
   refresh = ->
     if refreshOnProfileChange
-      omegaTarget.refreshActivePage().then ->
+      proxyTarget.refreshActivePage().then ->
         $window.top.close()
     else
       $window.top.close()
@@ -125,7 +125,7 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
       profile = getVirtualTarget(profile, $scope.availableProfiles)
     desc || profile?.name || ''
   $scope.openOptions = (hash) ->
-    omegaTarget.openOptions(hash).then ->
+    proxyTarget.openOptions(hash).then ->
       $window.top.close()
   $scope.openConditionHelp = ->
     pname = encodeURIComponent($scope.currentProfileName)
@@ -134,15 +134,15 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
   $scope.applyProfile = (profile) ->
     next = ->
       if profile.profileType == 'SwitchProfile'
-        return omegaTarget.state('web.switchGuide').then (switchGuide) ->
+        return proxyTarget.state('web.switchGuide').then (switchGuide) ->
           if switchGuide == 'showOnFirstUse'
             return $scope.openOptions("#!/profile/#{profile.name}")
     if not refreshOnProfileChange
-      omegaTarget.applyProfileNoReply(profile.name)
+      proxyTarget.applyProfileNoReply(profile.name)
       apply = next()
     else
-      apply = omegaTarget.applyProfile(profile.name).then(->
-        return omegaTarget.refreshActivePage()
+      apply = proxyTarget.applyProfile(profile.name).then(->
+        return proxyTarget.refreshActivePage()
       ).then(next)
 
     if apply
@@ -154,17 +154,17 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
   $scope.nameExternal = {open: false}
   $scope.addTempRule = (domain, profileName) ->
     $scope.tempRuleMenu.open = false
-    omegaTarget.addTempRule(domain, profileName).then ->
-      omegaTarget.state('lastProfileNameForCondition', profileName)
+    proxyTarget.addTempRule(domain, profileName).then ->
+      proxyTarget.state('lastProfileNameForCondition', profileName)
       refresh()
 
   $scope.setDefaultProfile = (profileName, defaultProfileName) ->
-    omegaTarget.setDefaultProfile(profileName, defaultProfileName).then ->
+    proxyTarget.setDefaultProfile(profileName, defaultProfileName).then ->
       refresh()
   
   $scope.addCondition = (condition, profileName) ->
-    omegaTarget.addCondition(condition, profileName).then ->
-      omegaTarget.state('lastProfileNameForCondition', profileName)
+    proxyTarget.addCondition(condition, profileName).then ->
+      proxyTarget.state('lastProfileNameForCondition', profileName)
       refresh()
 
   $scope.addConditionForDomains = (domains, profileName) ->
@@ -174,20 +174,20 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
         conditionType: 'HostWildcardCondition'
         pattern: domain
       })
-    omegaTarget.addCondition(conditions, profileName).then ->
-      omegaTarget.state('lastProfileNameForCondition', profileName)
+    proxyTarget.addCondition(conditions, profileName).then ->
+      proxyTarget.state('lastProfileNameForCondition', profileName)
       refresh()
 
   $scope.addTempConditionForDomains = (domains, profileName) ->
     conditions = []
     promises = []
     for own domain, enabled of domains when enabled
-      promises.push(omegaTarget.addTempRule(
+      promises.push(proxyTarget.addTempRule(
         domain.substring(2),
         profileName, 1)
       )
     Promise.all(promises).then ->
-      omegaTarget.state('lastProfileNameForCondition', profileName)
+      proxyTarget.state('lastProfileNameForCondition', profileName)
       refresh()
   
   $scope.validateProfileName =
@@ -198,8 +198,8 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
     $scope.nameExternal.open = false
     name = $scope.externalProfile?.name
     if name
-      omegaTarget.addProfile($scope.externalProfile).then ->
-        omegaTarget.applyProfile(name).then ->
+      proxyTarget.addProfile($scope.externalProfile).then ->
+        proxyTarget.applyProfile(name).then ->
           refresh()
 
   $scope.returnToMenu = ->
@@ -216,7 +216,7 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
   else if $window.location.hash == '#!external'
     $scope.nameExternal = {open: true}
 
-  omegaTarget.state([
+  proxyTarget.state([
     'availableProfiles', 'currentProfileName', 'isSystemProfile',
     'validResultProfiles', 'refreshOnProfileChange', 'externalProfile',
     'proxyNotControllable', 'lastProfileNameForCondition'
@@ -307,7 +307,7 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
     url = chrome.runtime.getURL('popup/network/index.html?tabId=') + activeTabId
     chrome.tabs.create({url: url})
 
-  omegaTarget.setRequestInfoCallback (info) ->
+  proxyTarget.setRequestInfoCallback (info) ->
     info.domains = generateDomainInfos(info)
     $scope.$apply ->
       $scope.requestInfo = info
@@ -317,8 +317,8 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
       $scope.profileForDomains ?= preselectedProfileNameForCondition
 
   $q.all([
-    omegaTarget.state('currentProfileCanAddRule')
-    omegaTarget.getActivePageInfo(),
+    proxyTarget.state('currentProfileCanAddRule')
+    proxyTarget.getActivePageInfo(),
   ]).then ([canAddRule, info]) ->
     $scope.currentProfileCanAddRule = canAddRule
     if info

@@ -6,15 +6,15 @@ module.exports =
     dest: 'build/'
   target:
     files:
-      'build/js/omega_target.min.js':
-        'node_modules/omega-target/omega_target.min.js'
+      'build/js/proxy_target.min.js':
+        'node_modules/proxy-target/proxy_target.min.js'
   target_self:
-    src: 'omega_target_chromium_extension.min.js'
+    src: 'proxy_target_chromium_extension.min.js'
     dest: 'build/js/'
   target_popup:
     expand: true
     cwd: 'src/js'
-    src: 'omega_target_popup.js'
+    src: 'proxy_target_popup.js'
     dest: 'build/js/'
   overlay:
     expand: true

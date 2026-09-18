@@ -1,4 +1,4 @@
-angular.module('omega').controller 'PacProfileCtrl', ($scope, $modal) ->
+angular.module('proxy').controller 'PacProfileCtrl', ($scope, $modal) ->
   # coffeelint: disable=max_line_length
 
   # https://github.com/angular/angular.js/blob/master/src/ng/directive/input.js#L13

@@ -1,4 +1,4 @@
-OmegaTarget = require('omega-target')
+OmegaTarget = require('proxy-target')
 OmegaPac = OmegaTarget.OmegaPac
 Promise = OmegaTarget.Promise
 querystring = require('querystring')
@@ -55,7 +55,7 @@ class ChromeOptions extends OmegaTarget.Options
 
     chrome.alarms.onAlarm.addListener (alarm) =>
       switch alarm.name
-        when 'omega.updateProfile'
+        when 'proxy.updateProfile'
           @ready.then( =>
             @updateProfile()
           )
@@ -288,7 +288,7 @@ class ChromeOptions extends OmegaTarget.Options
           delete @_tabRequestInfoPorts[tabId] if tabId?
 
   schedule: (name, periodInMinutes) ->
-    name = 'omega.' + name
+    name = 'proxy.' + name
     if periodInMinutes < 0
       chrome.alarms.clear(name)
     else

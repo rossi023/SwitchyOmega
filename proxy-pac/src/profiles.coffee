@@ -13,11 +13,10 @@ class AST_Raw extends U2.AST_SymbolRef
 
 checkNeedFixForSocks5 = (proxy = {}) ->
   if proxy.scheme == 'socks5'
-    # https://github.com/FelisCatus/SwitchyOmega/issues/391
+    # SOCKS5 proxy fix
     if globalThis.FORCEFIXEXPORTSCRIPTFORSOCKS
       return true
-    # https://github.com/zero-peak/ZeroOmega/issues/147
-    # https://github.com/zero-peak/ZeroOmega/issues/178
+    # SOCKS5 compatibility issues
     return false
   return false
 

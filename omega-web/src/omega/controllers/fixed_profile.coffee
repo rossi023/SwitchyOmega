@@ -1,4 +1,4 @@
-angular.module('omega').controller 'FixedProfileCtrl', ($scope, $modal,
+angular.module('proxy').controller 'FixedProfileCtrl', ($scope, $modal,
   trFilter) ->
   $scope.urlSchemes = ['', 'http', 'https', 'ftp']
   $scope.urlSchemeDefault = 'fallbackProxy'

@@ -1,4 +1,4 @@
-OmegaTarget = require('omega-target')
+OmegaTarget = require('proxy-target')
 Promise = OmegaTarget.Promise
 
 { loadSyncImpl } = require('./sync/sync_impl')
@@ -262,7 +262,7 @@ class ChromeSyncStorage extends OmegaTarget.Storage
     )
 
   watch: (keys, callback) ->
-    chrome.alarms.create('omega.syncCheck', {
+    chrome.alarms.create('proxy.syncCheck', {
       periodInMinutes: 5
     })
     ChromeSyncStorage.watchers[@areaName] ?= {}
@@ -285,7 +285,7 @@ class ChromeSyncStorage extends OmegaTarget.Storage
         return unless enableSync
         return if isPulling
         switch alarm.name
-          when 'omega.syncCheck'
+          when 'proxy.syncCheck'
             @checkChange()
       onChangedListenerInstalled = true
     return ->

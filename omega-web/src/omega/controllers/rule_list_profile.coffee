@@ -1,2 +1,2 @@
-angular.module('omega').controller 'RuleListProfileCtrl', ($scope) ->
+angular.module('proxy').controller 'RuleListProfileCtrl', ($scope) ->
   $scope.ruleListFormats = OmegaPac.Profiles.ruleListFormats

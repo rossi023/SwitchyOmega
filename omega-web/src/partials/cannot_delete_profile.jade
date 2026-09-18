@@ -8,7 +8,7 @@
   .well
     ul.list-style-none
       li(ng-repeat='p in refs')
-        span(omega-profile-inline='p' options='options' disp-name='dispNameFilter')
+        span(proxy-profile-inline='p' options='options' disp-name='dispNameFilter')
   p {{'options_modifyReferringProfiles' | tr}}
 .modal-footer
   button.btn.btn-default(ng-click='$dismiss()') {{'dialog_cancel' | tr}}

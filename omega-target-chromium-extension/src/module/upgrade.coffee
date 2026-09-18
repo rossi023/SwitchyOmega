@@ -1,4 +1,4 @@
-OmegaTarget = require('omega-target')
+OmegaTarget = require('proxy-target')
 OmegaPac = OmegaTarget.OmegaPac
 
 module.exports = (oldOptions, i18n) ->

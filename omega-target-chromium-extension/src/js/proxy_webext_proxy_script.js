@@ -1,5 +1,5 @@
 FindProxyForURL = (function () {
-  var OmegaPac = require('omega-pac');
+  var OmegaPac = require('proxy-pac');
   var options = {};
   var state = {};
   var activeProfile = null;

@@ -2,7 +2,7 @@ this.UglifyJS_NoUnsafeEval = true
 $script 'lib/angular-loader/angular-loader.min.js',
   'angular-loader'
 $script 'lib/jquery/jquery.min.js', 'jquery'
-$script 'js/omega_pac.min.js', 'omega-pac'
+$script 'js/proxy_pac.min.js', 'proxy-pac'
 $script 'lib/FileSaver/FileSaver.min.js', 'filesaver'
 $script 'lib/blob/Blob.js', 'blob'
 $script 'lib/spin.js/spin.js', ->
@@ -11,16 +11,16 @@ $script 'lib/spin.js/spin.js', ->
       $script 'lib/angular-ladda/angular-ladda.min.js', 'angular-ladda'
 
 $script.ready ['angular-loader'], ->
-  angular.module 'omega', ['ngLocale', 'ngAnimate', 'ngSanitize',
+  angular.module 'proxy', ['ngLocale', 'ngAnimate', 'ngSanitize',
     'ui.bootstrap', 'ui.router', 'ngProgress', 'ui.sortable',
-    'angularSpectrumColorpicker', 'ui.validate', 'angular-ladda', 'omegaTarget',
-    'omegaDecoration']
-  $script.ready ['omega-pac'], ->
-    $script 'js/omega.js', 'omega'
+    'angularSpectrumColorpicker', 'ui.validate', 'angular-ladda', 'proxyTarget',
+    'proxyDecoration']
+  $script.ready ['proxy-pac'], ->
+    $script 'js/proxy.js', 'proxy'
 
   $script([
-    'js/omega_target_web.js'
-    'js/omega_decoration.js'
+    'js/proxy_target_web.js'
+    'js/proxy_decoration.js'
     'lib/angular-animate/angular-animate.min.js'
     'lib/angular-bootstrap/ui-bootstrap-tpls.min.js'
     'lib/ngprogress/ngProgress.min.js'
@@ -28,7 +28,7 @@ $script.ready ['angular-loader'], ->
     'lib/angular-ui-utils/validate.min.js'
     'lib/jsondiffpatch/jsondiffpatch.min.js'
     'lib/angular-spectrum-colorpicker/angular-spectrum-colorpicker.min.js'
-  ], 'omega-deps')
+  ], 'proxy-deps')
 $script.ready ['jquery'], ->
   $script('lib/zero-dependencies/jquery-ui/jquery-ui-1.10.4.custom.min.js',
   'jquery-ui-base')
@@ -60,12 +60,12 @@ $script.ready ['angular'], ->
   locale = locales[lang] || locales[lang1] || locales['']
   $script 'lib/angular-i18n/angular-locale_' + locale + '.js', 'angular-i18n'
 
-$script.ready ['angular', 'omega', 'omega-deps', 'angular-ui-router',
+$script.ready ['angular', 'proxy', 'proxy-deps', 'angular-ui-router',
   'jquery-ui', 'spectrum', 'filesaver', 'blob', 'angular-ladda',
   'angular-sanitize', 'angular-i18n'], ->
     initInjector = angular.injector(['ng'])
     $http = initInjector.get('$http')
     $http.get('./lib/themes/themes.json').then((response) ->
-      angular.module('omega').constant('themes', response.data)
-      angular.bootstrap document, ['omega']
+      angular.module('proxy').constant('themes', response.data)
+      angular.bootstrap document, ['proxy']
     )

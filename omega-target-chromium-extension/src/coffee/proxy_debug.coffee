@@ -17,7 +17,7 @@ window.OmegaDebug =
   downloadLog: ->
     idbKeyval.entries(logStore).then((entries) ->
       zip = new JSZip()
-      zipFolder = zip.folder('ZeroOmega')
+      zipFolder = zip.folder('网罗代理')
       entries.forEach((entry) ->
         if entry[0] != 'lastError'
           zipFolder.file(entry[1].date + '.log', entry[1].val)
@@ -30,7 +30,7 @@ window.OmegaDebug =
         type: 'blob'
       })
     ).then((blob) ->
-      filename = "ZeroOmegaLog_#{Date.now()}.zip"
+      filename = "网罗代理Log_#{Date.now()}.zip"
       saveAs(blob, filename)
     )
   resetOptions: ->
@@ -50,13 +50,13 @@ window.OmegaDebug =
         idbKeyval.clear()
       ).then( ->
         # Prevent options loading from sync storage after reload.
-        #localStorage['omega.local.syncOptions'] = '"conflict"'
+        #localStorage['proxy.local.syncOptions'] = '"conflict"'
         chrome.runtime.reload()
       )
     )
   reportIssue: ->
     idbKeyval.get('lastError', logStore).then((lastError) ->
-      url = 'https://github.com/suziwen/ZeroOmega/issues/new?title=&body='
+      url = 'https://github.com/issues/new?title=&body='
       finalUrl = url
       try
         projectVersion = OmegaDebug.getProjectVersion()
@@ -71,7 +71,7 @@ window.OmegaDebug =
         body ||= """
           \n\n
           <!-- Please write your comment ABOVE this line. -->
-          ZeroOmega #{env.projectVersion}
+          网罗代理 #{env.projectVersion}
           #{env.userAgent}
         """
         finalUrl = url + encodeURIComponent(body)

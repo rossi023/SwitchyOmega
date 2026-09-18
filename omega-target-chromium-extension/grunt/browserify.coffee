@@ -5,7 +5,7 @@ module.exports =
       'index.js': 'index.coffee'
     options:
       transform: ['coffeeify']
-      exclude: ['bluebird', 'omega-pac', 'omega-target']
+      exclude: ['bluebird', 'proxy-pac', 'proxy-target']
       browserifyOptions:
         extensions: '.coffee'
         builtins: []
@@ -13,7 +13,7 @@ module.exports =
         debug: true
   browser:
     files:
-      'omega_target_chromium_extension.min.js': 'index.coffee'
+      'proxy_target_chromium_extension.min.js': 'index.coffee'
     options:
       alias: [
         './index.coffee:OmegaTargetChromium'
@@ -27,17 +27,17 @@ module.exports =
       browserifyOptions:
         extensions: '.coffee'
         standalone: 'OmegaTargetChromium'
-  omega_webext_proxy_script:
+  proxy_webext_proxy_script:
     files:
-      'build/js/omega_webext_proxy_script.min.js':
-        'src/js/omega_webext_proxy_script.js'
+      'build/js/proxy_webext_proxy_script.min.js':
+        'src/js/proxy_webext_proxy_script.js'
     options:
       alias:
-        'omega-pac': 'omega-pac/omega_pac.min.js'
+        'proxy-pac': 'proxy-pac/proxy_pac.min.js'
       plugin:
         if process.env.BUILD == 'release'
           [['minifyify', {map: false}]]
         else
           []
       browserifyOptions:
-        noParse: [require.resolve('omega-pac/omega_pac.min.js')]
+        noParse: [require.resolve('proxy-pac/proxy_pac.min.js')]

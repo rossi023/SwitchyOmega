@@ -3,4 +3,4 @@ module.exports =
     singleQuotes: true
   app:
     files:
-      'build/js/omega.ngmin.js': 'build/js/omega.js'
+      'build/js/proxy.ngmin.js': 'build/js/proxy.js'

@@ -1,9 +1,9 @@
-angular.module('omega').controller 'BuiltinCtrl', ($scope, $stateParams,
+angular.module('proxy').controller 'BuiltinCtrl', ($scope, $stateParams,
   $location, $rootScope,
   $timeout, $state, $modal,
   builtinProfiles, profileColorPalette,
   getAttachedName, getParentName, getVirtualTarget,
-  omegaTarget
+  proxyTarget
 ) ->
 
   customBuiltinProfiles = {}
@@ -17,7 +17,7 @@ angular.module('omega').controller 'BuiltinCtrl', ($scope, $stateParams,
     $scope.systemProfile = customBuiltinProfiles['+system']
     $scope.directProfile = customBuiltinProfiles['+direct']
 
-  omegaTarget.addOptionsChangeCallback decorateBuiltinProfile
+  proxyTarget.addOptionsChangeCallback decorateBuiltinProfile
 
   decorateBuiltinProfile($rootScope.options)
   $scope.moveColor = (color, key) ->

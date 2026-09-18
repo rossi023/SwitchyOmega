@@ -1,7 +1,7 @@
 SyncImpl = require('./sync_impl')
 
-COMMIT_FILENAME = 'zeroomega-commit.txt'
-OPTION_FILE_PREFIX = 'zeroomega-'
+COMMIT_FILENAME = '网罗代理-commit.txt'
+OPTION_FILE_PREFIX = '网罗代理-'
 OPTION_FILE_SUFFIX = '.json'
 
 class WebDavSyncImpl extends SyncImpl
@@ -14,7 +14,7 @@ class WebDavSyncImpl extends SyncImpl
 
   init: (config) ->
     uri = (config.uri || '').replace(/\/+$/, '')
-    @baseUri = uri + '/zeroomega/'
+    @baseUri = uri + '/网罗代理/'
     @token = config.token || ''
     @username = config.username || ''
     @_authHeader = null

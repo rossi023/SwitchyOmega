@@ -29,13 +29,13 @@ html, body{
 }
 
 
-.omega-profile-select {
+.network-profile-select {
   width: 100%;
 }
-.omega-profile-select .dropdown-menu > li > a {
+.network-profile-select .dropdown-menu > li > a {
   max-width: none !important;
 }
-.omega-profile-select .btn {
+.network-profile-select .btn {
   width: 100%;
   display: block;
   text-align: left;
@@ -43,14 +43,14 @@ html, body{
   position: relative;
   padding-right: 25px;
 }
-.omega-profile-select .btn .caret {
+.network-profile-select .btn .caret {
   position: absolute;
   top: 50%;
   right: 12px;
   margin-top: -2px;
   vertical-align: middle;
 }
-.omega-profile-select .dropdown-menu {
+.network-profile-select .dropdown-menu {
   width: 100%;
   cursor: pointer;
 }

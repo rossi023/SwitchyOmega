@@ -5,6 +5,6 @@ module.exports =
     src: ['**/*.coffee']
     dest: 'build/js/'
     ext: '.js'
-  web_omega:
+  web_proxy:
     files:
-      'build/js/omega.js': 'src/omega/**/*.coffee'
+      'build/js/proxy.js': 'src/omega/**/*.coffee'

@@ -1,4 +1,4 @@
-angular.module('omega').controller 'QuickSwitchCtrl', ($scope, $filter) ->
+angular.module('proxy').controller 'QuickSwitchCtrl', ($scope, $filter) ->
   $scope.sortableOptions =
     tolerance: 'pointer'
     axis: 'y'

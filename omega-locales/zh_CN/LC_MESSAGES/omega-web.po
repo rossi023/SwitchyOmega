@@ -15,10 +15,10 @@ msgstr ""
 "X-Generator: Weblate 5.5-dev\n"
 
 msgid "appNameShort"
-msgstr "ZeroOmega"
+msgstr "网罗代理"
 
 msgid "manifest_app_name"
-msgstr "ZeroOmega"
+msgstr "网罗代理"
 
 msgid "manifest_app_description"
 msgstr "轻松快捷地管理和切换多个代理设置。"
@@ -174,10 +174,10 @@ msgid "ruleList_error_resultNotEnabled"
 msgstr "语法错误：缺少 '@with result' 指令！"
 
 msgid "ruleList_error_unknownProfile"
-msgstr "未找到此情景模式: $PROFILE$"
+msgstr "未找到此代理模式: $PROFILE$"
 
 msgid "ruleList_error_missingResultProfile"
-msgstr "语法错误：缺少结果情景模式名称。 行号 $LNO$: $SOURCE$"
+msgstr "语法错误：缺少结果代理模式名称。 行号 $LNO$: $SOURCE$"
 
 msgid "ruleList_error_invalidRule"
 msgstr "语法错误：非法规则。行号 $LNO$: $SOURCE$"
@@ -204,7 +204,7 @@ msgid "inputClear_restore"
 msgstr "还原"
 
 msgid "options_title"
-msgstr "ZeroOmega 选项"
+msgstr "网罗代理 选项"
 
 msgid "options_experimental_badge"
 msgstr "测试版"
@@ -213,7 +213,7 @@ msgid "options_navHeader_setting"
 msgstr "设置"
 
 msgid "options_navHeader_profiles"
-msgstr "情景模式"
+msgstr "代理模式"
 
 msgid "options_navHeader_actions"
 msgstr "操作"
@@ -228,7 +228,7 @@ msgid "options_tab_importExport"
 msgstr "导入/导出"
 
 msgid "options_newProfile"
-msgstr "新建情景模式…"
+msgstr "新建代理模式…"
 
 msgid "options_apply"
 msgstr "应用选项"
@@ -246,7 +246,7 @@ msgid "options_confirmDeletion"
 msgstr "删除切换条件时需要确认。"
 
 msgid "options_refreshOnProfileChange"
-msgstr "当更改情景模式时刷新当前标签。"
+msgstr "当更改代理模式时刷新当前标签。"
 
 msgid "options_showInspectMenu"
 msgstr "右键菜单中，可检查网页元素所使用的代理。"
@@ -255,13 +255,13 @@ msgid "options_addConditionsToBottom"
 msgstr "把以弹出菜单方式创建的规则添加到列表末尾。"
 
 msgid "options_showResultProfileOnActionBadgeText"
-msgstr "将最终使用的情景模式名称显示到徽标上。"
+msgstr "将最终使用的代理模式名称显示到徽标上。"
 
 msgid "options_group_keyboardShortcut"
 msgstr "键盘快捷键"
 
 msgid "options_menuShortcutHelp"
-msgstr "按下快捷键即可打开弹出菜单来切换情景模式。(默认快捷键: Alt+Shift+O)."
+msgstr "按下快捷键即可打开弹出菜单来切换代理模式。(默认快捷键: Alt+Shift+O)."
 
 msgid "options_menuShortcutMore"
 msgstr "弹出菜单中的菜单项也可以用键盘进行选择。在弹出菜单中按下? (问号键，或/斜杠键) 查看帮助。"
@@ -273,10 +273,10 @@ msgid "options_group_switchOptions"
 msgstr "切换选项"
 
 msgid "options_startupProfile"
-msgstr "初始情景模式"
+msgstr "初始代理模式"
 
 msgid "options_startupProfile_none"
-msgstr "(当前情景模式)"
+msgstr "(当前代理模式)"
 
 msgid "options_showConditionTypesAdvanced"
 msgstr "显示高级切换条件"
@@ -288,16 +288,16 @@ msgid "options_quickSwitch"
 msgstr "快速切换"
 
 msgid "options_cycledProfiles"
-msgstr "循环情景模式"
+msgstr "循环代理模式"
 
 msgid "options_cycledProfilesHelp"
-msgstr "点击图标或按下快捷键时，依次循环切换到以下情景模式。"
+msgstr "点击图标或按下快捷键时，依次循环切换到以下代理模式。"
 
 msgid "options_cycledProfilesTooFew"
-msgstr "必须至少选择2个情景模式才能进行切换。请从下方框中拖动情景模式到此框。"
+msgstr "必须至少选择2个代理模式才能进行切换。请从下方框中拖动代理模式到此框。"
 
 msgid "options_notCycledProfiles"
-msgstr "不循环切换的情景模式 (拖动到上面的框中启用切换)"
+msgstr "不循环切换的代理模式 (拖动到上面的框中启用切换)"
 
 msgid "options_group_proxyChanges"
 msgstr "代理设置变化"
@@ -315,14 +315,14 @@ msgstr ""
 
 msgid "options_conflicts_lowerPriority"
 msgstr ""
-"如果 ZeroOmega 图标上显示这样的红色徽章，表示另一个应用优先级较高，因此"
-"ZeroOmega 无法控制代理设置。请尝试卸载 ZeroOmega 再重新安装，这样可能可"
-"以提高 ZeroOmega 的优先级。如果重装后您仍然看到冲突，那么请考虑移除那个"
+"如果 网罗代理 图标上显示这样的红色徽章，表示另一个应用优先级较高，因此"
+"网罗代理 无法控制代理设置。请尝试卸载 网罗代理 再重新安装，这样可能可"
+"以提高 网罗代理 的优先级。如果重装后您仍然看到冲突，那么请考虑移除那个"
 "导致冲突的应用。"
 
 msgid "options_conflicts_higherPriority"
 msgstr ""
-"如果 ZeroOmega 的优先级较高，那么您可以在弹出菜单中选择 $SYSTEMPROFILE$ 来"
+"如果 网罗代理 的优先级较高，那么您可以在弹出菜单中选择 $SYSTEMPROFILE$ 来"
 "把控制权还给其他应用或系统设置。"
 
 msgid "options_showExternalProfile"
@@ -331,8 +331,8 @@ msgstr "在弹出菜单中显示菜单项，以导入其他应用提供的代理
 msgid "options_showExternalProfileHelp"
 msgstr ""
 "选择了 $SYSTEMPROFILE$ 的情况下，您可以在弹出菜单中选择 $EXTERNALPROFILE$ 来"
-"导入其他应用提供的代理设置。导入的设置将会成为一个新的情景模式，其名称由您决"
-"定。请注意导入的情景模式只是当时的一个快照，导入后不会随着原来的应用更新。"
+"导入其他应用提供的代理设置。导入的设置将会成为一个新的代理模式，其名称由您决"
+"定。请注意导入的代理模式只是当时的一个快照，导入后不会随着原来的应用更新。"
 
 msgid "options_group_networkRequests"
 msgstr "网络请求"
@@ -342,7 +342,7 @@ msgstr "在图标上显示当前页面中由于网络原因而未加载的资源
 
 msgid "options_monitorWebRequestsHelp"
 msgstr "启用此选项后，如有资源加载失败，则图标上会显示数字提示。<br>"
-"此时，您可以通过弹出菜单一次设置这些资源使用的情景模式，操作十分便捷。"
+"此时，您可以通过弹出菜单一次设置这些资源使用的代理模式，操作十分便捷。"
 
 msgid "options_downloadOptions"
 msgstr "下载选项"
@@ -375,7 +375,7 @@ msgid "options_downloadInterval_never"
 msgstr "从不更新"
 
 msgid "options_group_importExportProfile"
-msgstr "情景模式"
+msgstr "代理模式"
 
 msgid "options_exportPacFile"
 msgstr "导出PAC文件"
@@ -384,13 +384,13 @@ msgid "options_exportPacFileHelp"
 msgstr "导出PAC（代理自动设置）文件,以便在其它浏览器使用。"
 
 msgid "options_exportProfileHelp"
-msgstr "如需导出情景模式，请使用情景模式设置页面右上角的工具栏。"
+msgstr "如需导出代理模式，请使用代理模式设置页面右上角的工具栏。"
 
 msgid "options_exportLegacyRuleList"
 msgstr "导出规则列表时使用 Proxy Switchy!/SwitchyPlus/SwitchySharp 兼容格式。"
 
 msgid "options_exportLegacyRuleListHelp"
-msgstr "如果您需要发布规则列表给那些软件的用户，请启用此选项。<br>建议您提醒订阅者升级到 ZeroOmega 以享受新版功能。"
+msgstr "如果您需要发布规则列表给那些软件的用户，请启用此选项。<br>建议您提醒订阅者升级到 网罗代理 以享受新版功能。"
 
 msgid "options_group_importExportSettings"
 msgstr "选项"
@@ -399,7 +399,7 @@ msgid "options_makeBackup"
 msgstr "生成备份文件"
 
 msgid "options_makeBackupHelp"
-msgstr "导出一份包括情景模式和其他所有选项的备份文件。"
+msgstr "导出一份包括代理模式和其他所有选项的备份文件。"
 
 msgid "options_restoreLocal"
 msgstr "从备份文件恢复"
@@ -439,7 +439,7 @@ msgid "options_syncReset"
 msgstr "删除云端版本"
 
 msgid "options_syncPristineHelp"
-msgstr "您可以将设置和情景模式同步到所有使用Chrome浏览器的桌面设备。"
+msgstr "您可以将设置和代理模式同步到所有使用Chrome浏览器的桌面设备。"
 
 msgid "options_syncSyncAlert"
 msgstr "您的设置将会自动与其他设备进行同步。"
@@ -451,7 +451,7 @@ msgid "options_syncConflictAlert"
 msgstr "您已经通过其他设备上传了一份选项用于同步。"
 
 msgid "options_syncConflictHelp"
-msgstr "您可以将云端的选项下载到此设备使用。<br>一旦选择下载，<b>此设备上的设置和情景模式将会被覆盖</b>。"
+msgstr "您可以将云端的选项下载到此设备使用。<br>一旦选择下载，<b>此设备上的设置和代理模式将会被覆盖</b>。"
 
 msgid "options_syncUnsupportedHelp"
 msgstr "选项同步暂不支持您的平台或浏览器。目前只支持桌面版Chrome的浏览器的同步，请谅解。"
@@ -466,7 +466,7 @@ msgid "options_builtinProfile"
 msgstr "内置情境模式"
 
 msgid "options_profileTabPrefix"
-msgstr "情景模式： "
+msgstr "代理模式： "
 
 msgid "options_renameProfile"
 msgstr "更改名称"
@@ -484,7 +484,7 @@ msgid "options_profileExportPac"
 msgstr "导出PAC"
 
 msgid "options_profileUnsupported"
-msgstr "不支持的情景模式类型： $TYPE$!"
+msgstr "不支持的代理模式类型： $TYPE$!"
 
 msgid "options_profileUnsupportedHelp"
 msgstr "选项文件已经损坏，或者当前版本过低无法处理选项。"
@@ -520,7 +520,7 @@ msgstr "代理登录"
 
 msgid "options_proxy_authNotSupported"
 msgstr "您的浏览器不支持 $PROTOCOLDISP$ 代理认证！如有问题请联系您的浏览器支持，"
-"请勿反馈此问题给 ZeroOmega."
+"请勿反馈此问题给 网罗代理."
 
 msgid "options_proxy_authAllWarningPac"
 msgstr "警告: 用户名密码将会提供给PAC脚本返回的任何服务器，有时目标服务器会出乎您的预料。"
@@ -532,7 +532,7 @@ msgid "options_proxy_authAllWarningPacScript"
 msgstr "在提供用户名和密码时，请先确保您可以信任以下输入的PAC脚本。"
 
 msgid "options_proxy_authReferencedWarning"
-msgstr "此外，在其他情景模式（如自动切换）中使用此情景时，可能会导致用户名和密码被发送至其他情景模式中设置的服务器。"
+msgstr "此外，在其他代理模式（如自动切换）中使用此情景时，可能会导致用户名和密码被发送至其他代理模式中设置的服务器。"
 
 msgid "options_scheme_default"
 msgstr "(默认)"
@@ -565,10 +565,10 @@ msgid "options_pacUrlHelp"
 msgstr "应用将从此网址下载PAC脚本。如果网址留空，则直接使用下方的脚本内容。"
 
 msgid "options_pacUrlFile"
-msgstr "如果您使用本地PAC文件，则该情景模式只能单独使用，无法作为自动切换的结果。这是因为浏览器不允许读取本地文件。"
+msgstr "如果您使用本地PAC文件，则该代理模式只能单独使用，无法作为自动切换的结果。这是因为浏览器不允许读取本地文件。"
 
 msgid "options_pacUrlFileDisabled"
-msgstr "此情景模式已被引用，所以不能使用本地PAC文件。如果您真的需要使用本地文件，请另外新建一个PAC情景模式。"
+msgstr "此代理模式已被引用，所以不能使用本地PAC文件。如果您真的需要使用本地文件，请另外新建一个PAC代理模式。"
 
 msgid "options_group_pacScript"
 msgstr "PAC 脚本"
@@ -580,7 +580,7 @@ msgid "options_pacScriptObsolete"
 msgstr "修改网址后尚未下载更新，因此脚本已经过时。请使用上方的更新按钮进行下载。"
 
 msgid "options_group_virtualProfile"
-msgstr "虚情景模式"
+msgstr "虚代理模式"
 
 msgid "options_virtualProfileTarget"
 msgstr "目标"
@@ -589,15 +589,15 @@ msgid "options_virtualProfileTargetHelp"
 msgstr "应用此配置文件时，它的作用与下面选择的配置文件完全相同。"
 
 msgid "options_group_virtualProfileReplace"
-msgstr "迁移到虚情景模式"
+msgstr "迁移到虚代理模式"
 
 msgid "options_virtualProfileReplace"
-msgstr "取代目标情景模式"
+msgstr "取代目标代理模式"
 
 msgid "options_virtualProfileReplaceHelp"
 msgstr ""
-"通过此功能可以更改现有的选项，使用此虚情景模式来取代 $PROFILE$ 。此功能会把所有和 $PROFILE$ 相关的切换规则改为使用此虚情景模式。"
-"这样一来，就可以通过此虚情景模式来控制那些切换条件对应的结果。"
+"通过此功能可以更改现有的选项，使用此虚代理模式来取代 $PROFILE$ 。此功能会把所有和 $PROFILE$ 相关的切换规则改为使用此虚代理模式。"
+"这样一来，就可以通过此虚代理模式来控制那些切换条件对应的结果。"
 
 msgid "options_group_ruleListConfig"
 msgstr "规则列表设置"
@@ -606,13 +606,13 @@ msgid "options_ruleListFormat"
 msgstr "规则列表格式"
 
 msgid "options_group_ruleListResult"
-msgstr "规则列表结果情景模式"
+msgstr "规则列表结果代理模式"
 
 msgid "options_ruleListMatchProfile"
-msgstr "匹配则使用情景模式"
+msgstr "匹配则使用代理模式"
 
 msgid "options_ruleListDefaultProfile"
-msgstr "不匹配则使用情景模式"
+msgstr "不匹配则使用代理模式"
 
 msgid "options_group_ruleListUrl"
 msgstr "规则列表网址"
@@ -645,7 +645,7 @@ msgid "options_conditionDetails"
 msgstr "条件设置"
 
 msgid "options_resultProfile"
-msgstr "情景模式"
+msgstr "代理模式"
 
 msgid "options_conditionActions"
 msgstr "操作"
@@ -669,7 +669,7 @@ msgid "options_switchAttachedProfileInConditionDisabled"
 msgstr "(规则列表已禁用！)"
 
 msgid "options_switchDefaultProfile"
-msgstr "默认情景模式"
+msgstr "默认代理模式"
 
 msgid "options_hostLevelsBetween"
 msgstr "≤ 主机层数 ≤"
@@ -711,16 +711,16 @@ msgid "options_attachProfileHelp"
 msgstr "可以添加规则列表，以便引用他人在线发布的一组规则。"
 
 msgid "options_modalHeader_welcome"
-msgstr "欢迎使用 ZeroOmega"
+msgstr "欢迎使用 网罗代理"
 
 msgid "options_welcomeNormal"
-msgstr "您已经成功安装了 ZeroOmega ，一个强大的代理切换工具。"
+msgstr "您已经成功安装了 网罗代理 ，一个强大的代理切换工具。"
 
 msgid "options_welcomeNormalGuide"
 msgstr "您可以通过选项页面设置需要使用的代理服务器，下面我们就来试试看吧。"
 
 msgid "options_welcomeUpgrade"
-msgstr "您已经成功升级到 ZeroOmega. 别担心，所有设置都已经升级成功，可以继续使用。"
+msgstr "您已经成功升级到 网罗代理. 别担心，所有设置都已经升级成功，可以继续使用。"
 
 msgid "options_welcomeUpgradeGuide"
 msgstr "现在我们来熟悉一下新的选项页面。"
@@ -753,16 +753,16 @@ msgid "options_renameProfileName"
 msgstr "新的名称"
 
 msgid "options_profileNameConflict"
-msgstr "已经存在相同名称的情景模式。"
+msgstr "已经存在相同名称的代理模式。"
 
 msgid "options_profileNameReserved"
 msgstr "以双下划线开头的名称为系统保留，禁止使用。"
 
 msgid "options_profileNameHidden"
-msgstr "以下划线开头的情景模式不会在弹出菜单中显示，但仍可被用作切换的结果等。"
+msgstr "以下划线开头的代理模式不会在弹出菜单中显示，但仍可被用作切换的结果等。"
 
 msgid "options_modalHeader_replaceProfile"
-msgstr "替换情景模式"
+msgstr "替换代理模式"
 
 msgid "options_replaceProfile"
 msgstr "替换"
@@ -772,32 +772,32 @@ msgstr "您确定要使用 $ToProfile 来代替 $FromProfile$ 吗?"
 
 msgid "options_replaceProfileHelp"
 msgstr ""
-"如果继续操作，则和 $FromProfile$ 有关的切换规则将改为使用 $ToProfile$ 来代替。此外，启动情景模式、快速切换等设置也会做相应调整。"
-"但请注意，此操作不影响这两个情景模式本身。"
+"如果继续操作，则和 $FromProfile$ 有关的切换规则将改为使用 $ToProfile$ 来代替。此外，启动代理模式、快速切换等设置也会做相应调整。"
+"但请注意，此操作不影响这两个代理模式本身。"
 
 msgid "options_replaceProfileSuccess"
 msgstr "更改选项成功。"
 
 msgid "options_modalHeader_deleteProfile"
-msgstr "删除情景模式"
+msgstr "删除代理模式"
 
 msgid "options_deleteProfileConfirm"
-msgstr "真的要删除这个情景模式吗？"
+msgstr "真的要删除这个代理模式吗？"
 
 msgid "options_modalHeader_cannotDeleteProfile"
-msgstr "情景模式无法删除"
+msgstr "代理模式无法删除"
 
 msgid "options_profileReferredBy"
 msgstr "无法删除此配置文件，因为它被以下配置文件引用："
 
 msgid "options_modifyReferringProfiles"
-msgstr "修改以上所有情景模式并移除对此情景模式的引用后，方可删除此情景模式。"
+msgstr "修改以上所有代理模式并移除对此代理模式的引用后，方可删除此代理模式。"
 
 msgid "options_profileNameEmpty"
-msgstr "情景模式名称不能为空。"
+msgstr "代理模式名称不能为空。"
 
 msgid "popup_title"
-msgstr "ZeroOmega 弹出菜单"
+msgstr "网罗代理 弹出菜单"
 
 msgid "options_modalHeader_deleteRule"
 msgstr "删除规则"
@@ -830,19 +830,19 @@ msgid "options_modalHeader_resetRules"
 msgstr "重置全部规则"
 
 msgid "options_resetRulesConfirm"
-msgstr "真的要设置所有规则对应的情景模式为以下情景模式吗？"
+msgstr "真的要设置所有规则对应的代理模式为以下代理模式吗？"
 
 msgid "options_resetRules"
 msgstr "重置规则"
 
 msgid "options_resetRules_help"
-msgstr "批量设置所有规则的情景模式"
+msgstr "批量设置所有规则的代理模式"
 
 msgid "options_modalHeader_deleteAttached"
 msgstr "移除规则列表"
 
 msgid "options_deleteAttachedConfirm"
-msgstr "真的要移除当前情景模式的在线规则列表吗？"
+msgstr "真的要移除当前代理模式的在线规则列表吗？"
 
 msgid "options_ruleListLineCount"
 msgstr "共计$COUNT$行规则"
@@ -851,13 +851,13 @@ msgid "options_deleteAttached"
 msgstr "移除规则列表"
 
 msgid "options_modalHeader_newProfile"
-msgstr "新建情景模式"
+msgstr "新建代理模式"
 
 msgid "options_newProfileName"
-msgstr "情景模式名称"
+msgstr "代理模式名称"
 
 msgid "options_profileType"
-msgstr "请选择情景模式的类型:"
+msgstr "请选择代理模式的类型:"
 
 msgid "options_profileTypeFixedProfile"
 msgstr "代理服务器"
@@ -866,13 +866,13 @@ msgid "options_profileDescFixedProfile"
 msgstr "经过代理服务器访问网站。"
 
 msgid "options_profileTypePacProfile"
-msgstr "PAC情景模式"
+msgstr "PAC代理模式"
 
 msgid "options_profileDescPacProfile"
 msgstr "根据在线或本地的PAC脚本选择代理。"
 
 msgid "options_profileDescMorePacProfile"
-msgstr "如果您没有任何PAC脚本，也没有脚本的网址，则不必使用此情景模式。不了解PAC的用户不建议自行尝试编写脚本。"
+msgstr "如果您没有任何PAC脚本，也没有脚本的网址，则不必使用此代理模式。不了解PAC的用户不建议自行尝试编写脚本。"
 
 msgid "options_profileTypeSwitchProfile"
 msgstr "自动切换模式"
@@ -886,13 +886,13 @@ msgid "options_profileTypeRuleListProfile"
 msgstr "规则列表"
 
 msgid "options_profileDescRuleListProfile"
-msgstr "使用他人发布的在线规则列表来切换情景模式。"
+msgstr "使用他人发布的在线规则列表来切换代理模式。"
 
 msgid "options_profileTypeVirtualProfile"
-msgstr "虚情景模式"
+msgstr "虚代理模式"
 
 msgid "options_profileDescVirtualProfile"
-msgstr "虚情景模式可以作为某个其他情景模式使用，并可以根据需要更改对象。一般用在自动切换中，这样就可以一次性更改多个条件对应的代理。"
+msgstr "虚代理模式可以作为某个其他代理模式使用，并可以根据需要更改对象。一般用在自动切换中，这样就可以一次性更改多个条件对应的代理。"
 
 msgid "options_createProfile"
 msgstr "创建"
@@ -901,13 +901,13 @@ msgid "options_modalHeader_resetOptions"
 msgstr "重置选项"
 
 msgid "options_resetOptionsConfirm"
-msgstr "真的确定要重置选项吗？如果继续，现有的所有情景模式和选项将会丢失！"
+msgstr "真的确定要重置选项吗？如果继续，现有的所有代理模式和选项将会丢失！"
 
 msgid "options_formInvalid"
 msgstr "请更正这个页面中的错误。"
 
 msgid "options_profileNotFound"
-msgstr "情景模式 $PROFILE$ 不存在！选项可能已经损坏。"
+msgstr "代理模式 $PROFILE$ 不存在！选项可能已经损坏。"
 
 msgid "options_resetSuccess"
 msgstr "选项已经重置。"
@@ -925,10 +925,10 @@ msgid "options_importDownloadError"
 msgstr "下载备份文件时出错！"
 
 msgid "options_profileDownloadSuccess"
-msgstr "情景模式已经更新成功。"
+msgstr "代理模式已经更新成功。"
 
 msgid "options_profileDownloadError"
-msgstr "下载情景模式数据时出错！"
+msgstr "下载代理模式数据时出错！"
 
 msgid "options_profileDownloadError_NetworkError"
 msgstr "更新时发生网络错误。"
@@ -937,25 +937,25 @@ msgid "options_profileDownloadError_HttpError"
 msgstr "更新时发生网络错误 (HTTP $STATUS$)."
 
 msgid "options_profileDownloadError_HttpNotFoundError"
-msgstr "在远程服务器上找不到情景模式网址对应的文件。请检查网址。"
+msgstr "在远程服务器上找不到代理模式网址对应的文件。请检查网址。"
 
 msgid "options_profileDownloadError_HttpServerError"
 msgstr "更新时远程服务器发生错误 ($STATUS$)。"
 
 msgid "options_profileDownloadError_ContentTypeRejectedError"
-msgstr "下载的数据不符合格式！建议您在浏览器中打开情景模式网址并检查其内容。"
+msgstr "下载的数据不符合格式！建议您在浏览器中打开代理模式网址并检查其内容。"
 
 msgid "options_downloadProfileNow"
-msgstr "立即更新情景模式"
+msgstr "立即更新代理模式"
 
 msgid "options_guide_fixedProfileStep"
 msgstr ""
-"<b>代理情景</b>包含了服务器地址、端口等代理的信息。<br>在 ZeroOmega 中，情景模式是代理设置的基本单元。<br>"
-"默认设置中已经建立了一个代理情景模式作为样例。试着打开它吧。"
+"<b>代理情景</b>包含了服务器地址、端口等代理的信息。<br>在 网罗代理 中，代理模式是代理设置的基本单元。<br>"
+"默认设置中已经建立了一个代理代理模式作为样例。试着打开它吧。"
 
 msgid "options_guide_fixedServersStep"
 msgstr ""
-"在这里，您可以填写所需的代理服务器地址和端口。<br>ZeroOmega<b>软件本身不提供任何内置代理服务器</b>。<br>"
+"在这里，您可以填写所需的代理服务器地址和端口。<br>网罗代理<b>软件本身不提供任何内置代理服务器</b>。<br>"
 "如果您不清楚应该填写什么，最好咨询下您的网络提供者，或者参考代理软件的设置说明。"
 
 msgid "options_guide_autoSwitchProfileStep"
@@ -964,32 +964,32 @@ msgstr ""
 "可以打开这里的设置界面，来了解如何使用自动切换功能。"
 
 msgid "options_guide_addMoreProfilesStep"
-msgstr "需要更多情景模式？你始终可以添加更多<b>代理、切换和其他情景模式</b>满足你所有"
+msgstr "需要更多代理模式？你始终可以添加更多<b>代理、切换和其他代理模式</b>满足你所有"
 "的代理需要。<br>教程到此结束，享受代理吧！"
 
 msgid "options_guide_conditionStep"
 msgstr ""
-"ZeroOmega 可以根据<b>切换条件</b>对不同的网络请求使用不同的情景模式。<br>例如<b>域名通配符</b>"
-"条件可以对某个域名下的所有网址使用特定的情景模式。"
+"网罗代理 可以根据<b>切换条件</b>对不同的网络请求使用不同的代理模式。<br>例如<b>域名通配符</b>"
+"条件可以对某个域名下的所有网址使用特定的代理模式。"
 
 msgid "options_guide_conditionTypeStep"
 msgstr "您可以使用各种条件类型来匹配域名或者整个网址。<br> 点击问号按钮来查看条件类型的说明。"
 
 msgid "options_guide_conditionProfileStep"
 msgstr ""
-"对于<b>任何匹配该条件的请求</b>，ZeroOmega 会使用这个情景模式。<br>如果选择了<b>\"[直接连接]\"情景模式</b>，"
+"对于<b>任何匹配该条件的请求</b>，网罗代理 会使用这个代理模式。<br>如果选择了<b>\"[直接连接]\"代理模式</b>，"
 "则匹配的请求不使用任何代理。"
 
 msgid "options_guide_switchDefaultStep"
-msgstr "如果请求不匹配任何条件，则使用默认情景模式。<br>条件的匹配顺序总是按此页面<b>从上到下</b>。<br>您可以拖动排序图标来更改条件的顺序。"
+msgstr "如果请求不匹配任何条件，则使用默认代理模式。<br>条件的匹配顺序总是按此页面<b>从上到下</b>。<br>您可以拖动排序图标来更改条件的顺序。"
 
 msgid "options_guide_applySwitchProfileStep"
 msgstr ""
-"当您设置完毕后，别忘记<b>在弹出菜单中启用自动切换情景模式</b>。<br/>图标将会显示标签页切换的<b>最终结果</b>情景。<br/> <b>"
+"当您设置完毕后，别忘记<b>在弹出菜单中启用自动切换代理模式</b>。<br/>图标将会显示标签页切换的<b>最终结果</b>情景。<br/> <b>"
 "悬停在图标上</b>则会显示切换相关的详细说明。"
 
 msgid "popup_externalProfile"
-msgstr "(外部情景模式)"
+msgstr "(外部代理模式)"
 
 msgid "popup_externalProfileName"
 msgstr "保存名称"
@@ -1004,22 +1004,22 @@ msgid "popup_proxyNotControllable_unknown"
 msgstr "无法设置代理设置。请检查系统和浏览器设置。"
 
 msgid "popup_proxyNotControllable_disabled"
-msgstr "在其他应用或扩展的要求下，ZeroOmega 已经禁用代理设置。"
+msgstr "在其他应用或扩展的要求下，网罗代理 已经禁用代理设置。"
 
 msgid "popup_proxyNotControllable_upgrade"
-msgstr "代理设置现在由新版本的 ZeroOmega 控制。"
+msgstr "代理设置现在由新版本的 网罗代理 控制。"
 
 msgid "popup_proxyNotControllableDetails"
-msgstr "如果不解决以上问题，则无法使用ZeroOmega切换代理。"
+msgstr "如果不解决以上问题，则无法使用网罗代理切换代理。"
 
 msgid "popup_proxyNotControllableDetails_upgrade"
-msgstr "两个不同版本的 ZeroOmega （如稳定版和测试版）不能共存。请禁用其中之一。"
+msgstr "两个不同版本的 网罗代理 （如稳定版和测试版）不能共存。请禁用其中之一。"
 
 msgid "popup_proxyNotControllableManage"
 msgstr "管理扩展"
 
 msgid "popup_addConditionTo"
-msgstr "添加条件到情景模式"
+msgstr "添加条件到代理模式"
 
 msgid "add_temp_condition"
 msgstr "添加临时条件"
@@ -1049,7 +1049,7 @@ msgid "popup_requestErrorWarning"
 msgstr "由于网络原因，此页面部分资源加载失败。这些问题可能是由您的网络、代理服务器或网站本身引起的。"
 
 msgid "popup_requestErrorWarningHelp"
-msgstr "这些问题并非由 ZeroOmega 自身导致，它只不过检测并报告了错误而已。"
+msgstr "这些问题并非由 网罗代理 自身导致，它只不过检测并报告了错误而已。"
 
 msgid "popup_requestErrorAddCondition"
 msgstr "您可以查看以下域名，并根据实际情况确定是否对其使用代理。"
@@ -1061,10 +1061,10 @@ msgid "popup_configureMonitorWebRequests"
 msgstr "设置网络检测选项"
 
 msgid "options_resultProfileForSelectedDomains"
-msgstr "对所有选中域名使用此情景模式"
+msgstr "对所有选中域名使用此代理模式"
 
 msgid "options_pac_profile_unsupported_moz"
-msgstr "由于技术限制，PAC 情景模式无法在 Mozilla Firefox 上工作！"
+msgstr "由于技术限制，PAC 代理模式无法在 Mozilla Firefox 上工作！"
 
 msgid "popup_issueTemplate"
 msgstr ""
@@ -1072,7 +1072,7 @@ msgstr ""
 "\n"
 "\n"
 "<!-- ↑请在此行上方填写问题/建议详情，可用中文↑ -->\n"
-"ZeroOmega $projectVersion$\n"
+"网罗代理 $projectVersion$\n"
 "$userAgent$"
 
 msgid "browserAction_profileDetails_PacProfile"
@@ -1091,15 +1091,15 @@ msgid "browserAction_profileDetails_RuleListProfile"
 msgstr "(根据规则列表切换)"
 
 msgid "browserAction_titleNormal"
-msgstr "ZeroOmega:: $PROFILE$"
+msgstr "网罗代理:: $PROFILE$"
 
 msgid "browserAction_titleWithResult"
 msgstr ""
-"ZeroOmega:: $1:PROFILE$\n"
+"网罗代理:: $1:PROFILE$\n"
 "$3:DETAILS$"
 
 msgid "browserAction_titleNewerOptions"
-msgstr "错误：需要新版本的ZeroOmega才能加载当前选项。"
+msgstr "错误：需要新版本的网罗代理才能加载当前选项。"
 
 msgid "browserAction_titleOptionError"
 msgstr "错误：选项文件已经损坏，点击此处重置选项。"
@@ -1159,23 +1159,23 @@ msgid "about_experimental_warning_moz"
 msgstr "Mozilla Firefox 浏览器支持目前仍处于早期实验阶段！如果您遇到任何问题，请使用下方的按钮进行反馈。"
 
 msgid "about_disclaimer_networkService"
-msgstr "ZeroOmega 不提供代理服务器、VPN等网络服务。"
+msgstr "网罗代理 不提供代理服务器、VPN等网络服务。"
 
 msgid "about_disclaimer_privacy"
-msgstr "ZeroOmega 不会跟踪您的上网记录，不在页面中插入广告。请参见我们的"
+msgstr "网罗代理 不会跟踪您的上网记录，不在页面中插入广告。请参见我们的"
 "<a href='https://github.com/FelisCatus/SwitchyOmega/wiki/Privacy#%E4%B8%AD%E6%96%87'>隐私政策</a>。"
 
 msgid "about_help"
 msgstr ""
-"有其它问题？在使用 ZeroOmega 方面需要帮助？请参阅我们的<a href='https://github.com/FelisCatus/"
+"有其它问题？在使用 网罗代理 方面需要帮助？请参阅我们的<a href='https://github.com/FelisCatus/"
 "SwitchyOmega/wiki/FAQ'>常见问题</a>。"
 
 msgid "about_copyright"
 msgstr "版权所有 2012-2017 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The SwitchyOmega Authors</a>. 保留所有权利。<br>"
-"版权所有 2024-2025 <a href='https://github.com/zero-peak/ZeroOmega/graphs/contributors'>The ZeroOmega Authors</a>."
+"版权所有 2024-2025 <a href='https://github.com/zero-peak/网罗代理/graphs/contributors'>The 网罗代理 Authors</a>."
 
 msgid "about_credits"
-msgstr "ZeroOmega 的诞生离不开 <a href='https://github.com/zero-peak/ZeroOmega'>ZeroOmega</a> 开源项目和其他<a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>开源软件</a>。"
+msgstr "网罗代理 的诞生离不开 <a href='https://github.com/zero-peak/网罗代理'>网罗代理</a> 开源项目和其他<a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>开源软件</a>。"
 
 msgid "about_license"
-msgstr "ZeroOmega 是<a href='https://www.gnu.org/philosophy/free-sw.zh-cn.html'>自由软件</a>，使用<a href='https://www.gnu.org/licenses/gpl.html'>GNU General Public License</a> 版本 3 及以上授权。"
+msgstr "网罗代理 是<a href='https://www.gnu.org/philosophy/free-sw.zh-cn.html'>自由软件</a>，使用<a href='https://www.gnu.org/licenses/gpl.html'>GNU General Public License</a> 版本 3 及以上授权。"

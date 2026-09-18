@@ -10,5 +10,5 @@ module.exports =
   Url: require('url')
   proxy: require('./proxy')
 
-for name, value of require('omega-target')
+for name, value of require('proxy-target')
   module.exports[name] ?= value
