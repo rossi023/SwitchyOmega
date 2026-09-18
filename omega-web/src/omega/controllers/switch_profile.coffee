@@ -341,7 +341,7 @@ angular.module('proxy').controller 'SwitchProfileCtrl', ($scope, $rootScope,
       defaultProfileName: $scope.profile.defaultProfileName
       profileType: 'RuleListProfile'
       format: $rootScope.defaultRuleListFormat
-      ruleListUrl: $rootScope.defaultRuleListUrl
+      sourceUrl: $rootScope.defaultRuleListUrl
       matchProfileName: 'direct'
       color: $scope.profile.color
     )

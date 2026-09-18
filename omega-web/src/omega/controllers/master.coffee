@@ -171,7 +171,7 @@ angular.module('proxy').controller 'MasterCtrl', ($scope, $rootScope, $window,
           name: attachedName
           profileType: 'RuleListProfile'
           format: $rootScope.defaultRuleListFormat
-          ruleListUrl: $rootScope.defaultRuleListUrl
+          sourceUrl: $rootScope.defaultRuleListUrl
           matchProfileName: profile.name
           defaultProfileName: 'direct'
           color: profile.color
@@ -356,14 +356,14 @@ angular.module('proxy').controller 'MasterCtrl', ($scope, $rootScope, $window,
       when 'SwitchProfile'
         tr('options_profileTypeSwitchProfile')
       when 'RuleListProfile'
-        profile.ruleListUrl or tr('options_profileTypeRuleListProfile')
+        profile.sourceUrl or tr('options_profileTypeRuleListProfile')
       when 'VirtualProfile'
         profile.defaultProfileName or tr('options_profileTypeVirtualProfile')
       else
         ''
 
   $rootScope.defaultRuleListUrl =
-    'https://raw.githubusercontent.com/Loukky/gfwlist-by-loukky/master/gfwlist.txt'
+    'https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt'
   $rootScope.defaultRuleListFormat = 'AutoProxy'
 
   $scope.attachedRuleList = (profile) ->
@@ -375,7 +375,7 @@ angular.module('proxy').controller 'MasterCtrl', ($scope, $rootScope, $window,
   $scope.ruleListSource = (profile) ->
     ruleList = $scope.attachedRuleList(profile)
     return tr('options_profileRuleListNone') unless ruleList
-    return ruleList.ruleListUrl if ruleList.ruleListUrl
+    return ruleList.sourceUrl if ruleList.sourceUrl
     return tr('options_profileRuleListLocal') if ruleList.ruleList
     tr('options_profileRuleListNone')
 
@@ -389,7 +389,7 @@ angular.module('proxy').controller 'MasterCtrl', ($scope, $rootScope, $window,
         name: attachedName
         profileType: 'RuleListProfile'
         format: $rootScope.defaultRuleListFormat
-        ruleListUrl: $rootScope.defaultRuleListUrl
+        sourceUrl: $rootScope.defaultRuleListUrl
         matchProfileName: 'direct'
         defaultProfileName: profile.defaultProfileName or 'direct'
         color: profile.color

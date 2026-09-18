@@ -42,6 +42,15 @@ module.exports = ->
       }
     ]
 
+  "+__ruleListOf_auto switch":
+    profileType: "RuleListProfile"
+    name: "__ruleListOf_auto switch"
+    color: "#99dd99"
+    format: "AutoProxy"
+    sourceUrl: "https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt"
+    matchProfileName: "v2rayN"
+    defaultProfileName: "direct"
+
   "+auto switch":
     profileType: "SwitchProfile"
     rules: [
@@ -108,4 +117,4 @@ module.exports = ->
     ]
     name: "auto switch"
     color: "#99dd99"
-    defaultProfileName: "v2rayN"
+    defaultProfileName: "__ruleListOf_auto switch"

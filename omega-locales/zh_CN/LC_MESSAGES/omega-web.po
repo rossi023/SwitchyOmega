@@ -456,6 +456,39 @@ msgstr "您可以将云端的选项下载到此设备使用。<br>一旦选择�
 msgid "options_syncUnsupportedHelp"
 msgstr "选项同步暂不支持您的平台或浏览器。目前只支持桌面版Chrome的浏览器的同步，请谅解。"
 
+msgid "options_syncBackend"
+msgstr "同步后端"
+
+msgid "options_syncBackendGist"
+msgstr "GitHub Gist"
+
+msgid "options_syncBackendWebdav"
+msgstr "WebDAV"
+
+msgid "options_syncUri"
+msgstr "同步 URI"
+
+msgid "options_syncUriPlaceholderGist"
+msgstr "Gist 编号，例如 https://gist.github.com/{用户名}/{Gist 编号}"
+
+msgid "options_syncUriPlaceholderWebdav"
+msgstr "WebDAV 网址，例如 https://dav.example.com/path"
+
+msgid "options_syncWebdavUsername"
+msgstr "用户名"
+
+msgid "options_syncWebdavUsernamePlaceholder"
+msgstr "WebDAV 用户名"
+
+msgid "options_syncWebdavPassword"
+msgstr "密码"
+
+msgid "options_syncWebdavPasswordPlaceholder"
+msgstr "WebDAV 密码"
+
+msgid "options_syncWebdavHelp"
+msgstr "输入你的 WebDAV 服务网址。文件将保存在 <URI>/网罗代理/ 目录下。"
+
 msgid "options_builtin"
 msgstr "应用内置"
 
@@ -549,6 +582,12 @@ msgstr "对于所有代理使用相同服务器。"
 msgid "options_proxy_expand"
 msgstr "显示高级设置"
 
+msgid "options_proxy_proxyDNS"
+msgstr "通过 SOCKS 代理解析 DNS 请求。"
+
+msgid "options_proxy_proxyDNSHelp"
+msgstr "如果在 Firefox 系浏览器中使用 DNS-over-HTTPS，应关闭此选项。"
+
 msgid "options_group_bypassList"
 msgstr "不代理的地址列表"
 
@@ -619,6 +658,30 @@ msgstr "规则列表网址"
 
 msgid "options_ruleListUrlHelp"
 msgstr "应用将从此网址下载规则列表。如果网址留空，则以下文本会被直接处理后作为规则列表使用。"
+
+msgid "options_group_ruleListHeaders"
+msgstr "自定义请求头"
+
+msgid "options_ruleListHeaderName"
+msgstr "请求头名称"
+
+msgid "options_ruleListHeaderValue"
+msgstr "请求头值"
+
+msgid "options_ruleListHeaderNamePlaceholder"
+msgstr "例如：Authorization"
+
+msgid "options_ruleListHeaderValuePlaceholder"
+msgstr "例如：Bearer my-token"
+
+msgid "options_ruleListHeadersHelp"
+msgstr "下载规则列表时可以附加自定义的 HTTP 请求头。例如当规则列表来源需要认证时，此功能会很有用。"
+
+msgid "options_deleteHeader"
+msgstr "删除请求头"
+
+msgid "options_addHeader"
+msgstr "添加请求头"
 
 msgid "options_group_ruleListText"
 msgstr "规则列表正文"
