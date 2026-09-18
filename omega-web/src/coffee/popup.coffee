@@ -387,7 +387,7 @@ module.controller 'PopupCtrl', ($scope, $window, $q, proxyTarget,
         $scope.rule.condition.pattern =
           conditionSuggestion[$scope.rule.condition.conditionType]
       else
-        console.log('change domain....')
+        return
 
 
     $scope.showConditionForm = true

@@ -54,7 +54,7 @@ angular.module('proxy').controller 'MasterCtrl', ($scope, $rootScope, $window,
       pac = OmegaPac.PacGenerator.ascii(pac)
       blob = new Blob [pac], {type: "text/plain;charset=utf-8"}
       fileName = profileName.replace(/\W+/g, '_')
-      downloadFile(blob, "OmegaProfile_#{fileName}.pac")
+      downloadFile(blob, "ProxyProfile_#{fileName}.pac")
       if missingProfile
         $timeout ->
           $rootScope.showAlert(

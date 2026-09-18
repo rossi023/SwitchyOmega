@@ -26,7 +26,7 @@ angular.module('proxy').controller 'BuiltinCtrl', ($scope, $stateParams,
     $rootScope.options['-builtinProfiles'] =
       JSON.parse(JSON.stringify(customBuiltinProfiles))
   $scope.changeColor = (color) ->
-    console.log('change color::::', color)
+    return
   $scope.spectrumOptions =
     localStorageKey: 'spectrum.profileColor'
     palette: profileColorPalette

@@ -52,11 +52,9 @@ $httpProvider, $animateProvider, $compileProvider) ->
     ).state('ui',
       url: '/ui'
       templateUrl: 'partials/ui.html'
-      #controller: 'UiCtrl'
     ).state('general',
       url: '/general'
       templateUrl: 'partials/general.html'
-      #controller: 'GeneralCtrl'
     ).state('io',
       url: '/io'
       templateUrl: 'partials/io.html'
@@ -97,7 +95,7 @@ $injector) ->
 
   proxyDebug.reportIssue ?= ->
     $window.open(
-      'https://github.com/FelisCatus/SwitchyOmega/issues/new?title=&body=')
+      'https://github.com/rossi023/SwitchyOmega/issues/new?title=&body=')
     return
 
   proxyDebug.resetOptions ?= ->

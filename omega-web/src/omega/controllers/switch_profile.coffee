@@ -20,7 +20,7 @@ angular.module('proxy').controller 'SwitchProfileCtrl', ($scope, $rootScope,
 
     blob = new Blob [text], {type: "text/plain;charset=utf-8"}
     fileName = $scope.profile.name.replace(/\W+/g, '_')
-    downloadFile(blob, "OmegaRules_#{fileName}.sorl")
+    downloadFile(blob, "ProxyRules_#{fileName}.sorl")
 
   exportLegacyRuleList = ->
     wildcardRules = ''

@@ -427,7 +427,6 @@ function createConnectPort(tabulatorInstance, tabsSelectorInstance) {
         break
       }
       let useReplace = false
-      console.log('update datassssss:::', Object.keys(sequenceDataCache).length, sequenceDataCache)
       if (Object.keys(sequenceDataCache).length > 20) {
         useReplace = true
         const tableDatas = tabulatorInstance.getData()
@@ -471,7 +470,6 @@ function createConnectPort(tabulatorInstance, tabsSelectorInstance) {
 
   document.addEventListener('visibilitychange', function() {
     if (document.visibilityState === 'visible') {
-      console.log('visible::::', Object.keys(sequenceDataCache).lenth, sequenceDataCache)
       sequenceUpdateDatas()
     }
   });
@@ -579,7 +577,6 @@ const init = async () => {
           type: 'init',
         })
       }
-      console.log('tab changed:::', tab)
     }
   })
   const port = createConnectPort(tabulatorInstance, tabsSelectorInstance);

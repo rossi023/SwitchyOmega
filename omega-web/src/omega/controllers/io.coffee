@@ -182,7 +182,6 @@ angular.module('proxy').controller 'IoCtrl', (
           type: 'error'
           message: e + ''
         )
-        console.log('error:::', e)
       )
     if args?.force
       enable()
@@ -229,5 +228,4 @@ angular.module('proxy').controller 'IoCtrl', (
         type: 'error'
         message: e + ''
       )
-      console.log('error:::', e)
     )

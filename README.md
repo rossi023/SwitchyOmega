@@ -41,8 +41,8 @@ npm run build   # 构建项目
 
 ## 项目结构
 
-- `omega-pac` - PAC 脚本生成模块
-- `omega-target` - 浏览器无关的配置管理逻辑
+- `proxy-pac` - PAC 脚本生成模块
+- `proxy-target` - 浏览器无关的配置管理逻辑
 - `omega-web` - Web 配置界面
 - `omega-target-chromium-extension` - Chromium 扩展目标实现
 - `omega-locales` - 多语言翻译文件
